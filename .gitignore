@@ -1,0 +1,4 @@
+
+# Ignorar modelos grandes
+python_service/models/models/*.zip
+python_service/models/models/*.onnx
