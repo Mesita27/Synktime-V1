@@ -1,0 +1,357 @@
+/**
+ * SynkTime - Estilos para el formulario de consulta de reportes
+ *
+ * Este archivo contiene los estilos para el formulario de búsqueda
+ * y los controles de filtrado del módulo de reportes.
+ */
+
+/* Encabezado y acciones */
+.reports-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    color: #2B7DE9;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.page-title i {
+    color: #2B7DE9;
+}
+
+.reports-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Filtros rápidos */
+.quick-filters {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-filter {
+    background: white;
+    border: 1px solid #E2E8F0;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4A5568;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-filter i {
+    margin-right: 6px;
+    font-size: 0.9rem;
+}
+
+.btn-filter:hover {
+    background: #F7FAFC;
+    border-color: #CBD5E0;
+}
+
+.btn-filter.active {
+    background: #2B7DE9;
+    color: white;
+    border-color: #2B7DE9;
+}
+
+/* Caja de consulta */
+.reports-query-box {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.reports-query-form .query-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.reports-query-form .query-row:last-child {
+    margin-bottom: 0;
+}
+
+.reports-query-form .form-group {
+    flex: 1;
+    min-width: 150px;
+}
+
+.reports-query-form .form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #2B7DE9;
+    margin-bottom: 0.4rem;
+}
+
+.reports-query-form .form-group input,
+.reports-query-form .form-group select {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    background: #F7FAFC;
+    font-size: 0.95rem;
+    color: #4A5568;
+    transition: border 0.2s, background 0.2s;
+}
+
+.reports-query-form .form-group input:focus,
+.reports-query-form .form-group select:focus {
+    outline: none;
+    border-color: #2B7DE9;
+    background: white;
+}
+
+.reports-query-form .query-btns {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+/* Tabla de datos */
+.reports-table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.reports-table thead th {
+    padding: 1rem 0.8rem;
+    text-align: left;
+    background: #f0f6fe;
+    color: #2B7DE9;
+    font-weight: 600;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.reports-table tbody td {
+    padding: 0.8rem;
+    border-bottom: 1px solid #E2E8F0;
+    color: #4A5568;
+    vertical-align: middle;
+}
+
+.reports-table tbody tr:hover {
+    background: #F7FAFC;
+}
+
+/* Paginación */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #F7FAFC;
+    border-top: 1px solid #E2E8F0;
+}
+
+.pagination-info {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.pagination-button {
+    min-width: 32px;
+    height: 32px;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #4A5568;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-button:hover {
+    background: #F7FAFC;
+}
+
+.pagination-button.active {
+    background: #2B7DE9;
+    color: white;
+    border-color: #2B7DE9;
+}
+
+.pagination-ellipsis {
+    color: #718096;
+    padding: 0 0.3rem;
+}
+
+/* Estados */
+.status-temprano,
+.status-active {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background: #e6fffa;
+    color: #38b2ac;
+    font-weight: 500;
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
+
+.status-tardanza {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background: #fefcbf;
+    color: #d69e2e;
+    font-weight: 500;
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
+
+.status-ausente {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background: #fed7d7;
+    color: #e53e3e;
+    font-weight: 500;
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
+
+.status-presente {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    background: #bee3f8;
+    color: #3182ce;
+    font-weight: 500;
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
+
+/* Botones */
+.btn-primary,
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: #2B7DE9;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #1A56B3;
+}
+
+.btn-secondary {
+    background: #EDF2F7;
+    color: #4A5568;
+    border: 1px solid #E2E8F0;
+}
+
+.btn-secondary:hover {
+    background: #E2E8F0;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    color: #2B7DE9;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.btn-icon:hover {
+    background-color: #f0f6fe;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .reports-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .reports-actions {
+        width: 100%;
+    }
+    
+    .reports-query-form .form-group {
+        flex: 1 1 100%;
+    }
+    
+    .reports-query-form .query-btns {
+        margin-left: 0;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .pagination-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Estilos para turnos nocturnos */
+.turno-nocturno {
+    background-color: rgba(147, 51, 234, 0.05);
+    border-left: 3px solid #9333ea;
+}
+
+.turno-nocturno:hover {
+    background-color: rgba(147, 51, 234, 0.1);
+}
+
+.text-purple {
+    color: #9333ea !important;
+}
+
+.badge-purple {
+    background-color: #9333ea;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}

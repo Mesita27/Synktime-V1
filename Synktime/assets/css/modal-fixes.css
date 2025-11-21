@@ -1,0 +1,77 @@
+/**
+ * Fijaciones específicas para modales en el sistema
+ * Resuelve problemas con el modal-backdrop
+ */
+
+/* Forzar estilos para resolver problemas del modal backdrop */
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+/* Estilos para corregir alineación de modales */
+.modal-dialog.modal-dialog-centered {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 1.75rem auto !important;
+}
+
+/* Asegurar que el modal se muestra correctamente */
+.modal.show .modal-dialog {
+    transform: none !important;
+}
+
+/* Asegurar que el contenido del modal sea de color claro */
+.modal-content {
+    background-color: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Estilos para contenido dentro del modal */
+.modal-body {
+    background-color: #ffffff !important;
+}
+
+/* Corregir el espaciado en filas para centrado */
+.modal-body .row {
+    justify-content: center !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Estilo para fondos claros en paneles */
+.capture-info, 
+.capture-progress, 
+.finger-selection, 
+.fingerprint-progress,
+.employee-info {
+    background-color: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+/* Botones con colores del sistema */
+.btn-primary {
+    background-color: #4361ee !important;
+    border-color: #4361ee !important;
+}
+
+.btn-success {
+    background-color: #2ecc71 !important;
+    border-color: #2ecc71 !important;
+}
+
+.btn-secondary {
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
+}
+
+/* Asegurar que el z-index del modal sea mayor que el del backdrop */
+.modal {
+    z-index: 1050 !important;
+}
+
+.modal-backdrop {
+    z-index: 1040 !important;
+}

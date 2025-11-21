@@ -1,0 +1,396 @@
+/* Estilos para los popups de asistencia */
+.attendance-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.attendance-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.attendance-modal-dialog {
+    max-width: 800px;
+    width: 90%;
+    margin: 30px auto;
+    position: relative;
+}
+
+.attendance-modal-content {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.attendance-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.attendance-modal-title {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+}
+
+.attendance-modal-title i {
+    font-size: 1.1em;
+    color: white;
+}
+
+.attendance-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.8;
+}
+
+.attendance-modal-close:hover {
+    color: white;
+    opacity: 1;
+}
+
+.attendance-modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.attendance-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f8f8f8;
+}
+
+.attendance-modal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.attendance-filter-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.attendance-filter-badge i {
+    margin-right: 6px;
+    color: #777;
+}
+
+/* Estilos para la tabla */
+.attendance-table-responsive {
+    overflow-x: auto;
+    margin-bottom: 15px;
+}
+
+.attendance-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+}
+
+.attendance-data-table th,
+.attendance-data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.attendance-data-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+}
+
+.attendance-data-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.attendance-data-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Estilos para los botones */
+.attendance-btn-primary, 
+.attendance-btn-secondary {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border: none;
+}
+
+.attendance-btn-primary {
+    background-color: #4B96FA;
+    color: white;
+}
+
+.attendance-btn-primary:hover {
+    background-color: #3a85e9;
+}
+
+.attendance-btn-secondary {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.attendance-btn-secondary:hover {
+    background-color: #d0d0d0;
+}
+
+.attendance-btn-primary i,
+.attendance-btn-secondary i {
+    margin-right: 6px;
+}
+
+/* Indicador de carga */
+.attendance-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    color: #666;
+}
+
+.attendance-spinner i {
+    margin-right: 8px;
+    font-size: 1.25em;
+}
+
+/* Tarjetas clicables */
+.stat-card.clickable {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de elevación al pasar el mouse */
+.stat-card.clickable:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1;
+}
+
+/* Indicador de "Click para ver detalles" */
+.stat-card.clickable::after {
+    content: "Click para ver detalles";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 5px;
+    font-size: 11px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+/* Mostrar el indicador al pasar el mouse */
+.stat-card.clickable:hover::after {
+    transform: translateY(0);
+}
+
+/* Icono de expansión en la esquina superior derecha */
+.stat-card.clickable::before {
+    content: "\f065"; /* Icono de expansión de Font Awesome */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    z-index: 2;
+}
+
+/* Cambiar el color del icono al pasar el mouse */
+.stat-card.clickable:hover::before {
+    color: rgba(0, 0, 0, 0.6);
+    transform: scale(1.2);
+}
+
+/* Efecto de brillo al pasar el mouse */
+.stat-card.clickable {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card.clickable::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+}
+
+.stat-card.clickable:hover::after {
+    opacity: 1;
+    animation: shine 1.5s ease-in-out;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(45deg);
+    }
+}
+
+/* Borde pulsante al pasar el mouse */
+.stat-card.clickable {
+    position: relative;
+}
+
+.stat-card.clickable::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    pointer-events: none;
+    transition: border-color 0.3s;
+}
+
+.stat-card.clickable:hover::before {
+    border-color: var(--primary-color, #4B96FA);
+    animation: pulseBorder 1.5s infinite;
+}
+
+@keyframes pulseBorder {
+    0% { border-color: rgba(75, 150, 250, 0.4); }
+    50% { border-color: rgba(75, 150, 250, 1); }
+    100% { border-color: rgba(75, 150, 250, 0.4); }
+}
+
+/* Cursor específico para elementos clicables */
+.stat-card.clickable {
+    cursor: pointer;
+}
+
+/* Efecto de botón 3D al hacer clic */
+.stat-card.clickable:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Indicadores específicos por tipo de tarjeta */
+.stat-card.clickable:nth-child(1)::after {
+    content: "Ver llegadas tempranas";
+    background-color: rgba(40, 167, 69, 0.8);
+}
+
+.stat-card.clickable:nth-child(2)::after {
+    content: "Ver llegadas a tiempo";
+    background-color: rgba(75, 150, 250, 0.8);
+}
+
+.stat-card.clickable:nth-child(3)::after {
+    content: "Ver llegadas tardías";
+    background-color: rgba(255, 193, 7, 0.8);
+}
+
+.stat-card.clickable:nth-child(4)::after {
+    content: "Ver faltas";
+    background-color: rgba(220, 53, 69, 0.8);
+}
+
+/* Colores para texto */
+.attendance-text-info { color: #4B96FA; }
+.attendance-text-success { color: #48BB78; }
+.attendance-text-warning { color: #ffc107; }
+.attendance-text-danger { color: #dc3545; }
+.attendance-text-center { text-align: center; }
+
+/* Status badges */
+.attendance-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.attendance-status-badge.temprano {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: #155724;
+}
+
+.attendance-status-badge.a-tiempo {
+    background-color: rgba(75, 150, 250, 0.15);
+    color: #004085;
+}
+
+.attendance-status-badge.tarde {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #856404;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .attendance-modal-dialog {
+        width: 95%;
+        margin: 20px auto;
+    }
+    
+    .attendance-modal-body {
+        padding: 15px;
+    }
+}

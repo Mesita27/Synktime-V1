@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración Rápida - Sistema Biométrico SynkTime</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .setup-container { max-width: 900px; margin: 2rem auto; padding: 2rem; }
+        .setup-card { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden; }
+        .setup-header { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); color: white; padding: 2rem; text-align: center; }
+        .setup-body { padding: 2rem; }
+        .step-card { background: #f8f9fa; border-radius: 10px; padding: 1.5rem; margin: 1rem 0; border-left: 4px solid #007bff; }
+        .btn-action { margin: 0.5rem; padding: 0.75rem 1.5rem; }
+        .status-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .status-success { background-color: #28a745; }
+        .status-warning { background-color: #ffc107; }
+        .status-error { background-color: #dc3545; }
+        .log-output { background: #000; color: #00ff00; padding: 1rem; border-radius: 5px; font-family: 'Courier New', monospace; max-height: 200px; overflow-y: auto; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="setup-container">
+        <div class="setup-card">
+            <div class="setup-header">
+                <h1><i class="fas fa-cogs"></i> Configuración Rápida del Sistema Biométrico</h1>
+                <p class="mb-0">Configuración automática en 3 pasos simples</p>
+            </div>
+            
+            <div class="setup-body">
+                <!-- Estado del Sistema -->
+                <div class="step-card">
+                    <h4><i class="fas fa-heartbeat"></i> Estado Actual del Sistema</h4>
+                    <div id="system-status">
+                        <p><span class="status-indicator" id="db-status"></span> Base de Datos: <span id="db-text">Verificando...</span></p>
+                        <p><span class="status-indicator" id="tables-status"></span> Tablas: <span id="tables-text">Verificando...</span></p>
+                        <p><span class="status-indicator" id="api-status"></span> APIs: <span id="api-text">Verificando...</span></p>
+                    </div>
+                </div>
+
+                <!-- Paso 1: Base de Datos -->
+                <div class="step-card">
+                    <h4><i class="fas fa-database"></i> Paso 1: Configurar Base de Datos</h4>
+                    <p>Crear la estructura básica de la base de datos MySQL para el sistema biométrico.</p>
+                    <button class="btn btn-primary btn-action" onclick="setupDatabase()">
+                        <i class="fas fa-magic"></i> Configurar Automáticamente
+                    </button>
+                    <button class="btn btn-info btn-action" onclick="window.open('setup-database.php', '_blank')">
+                        <i class="fas fa-external-link-alt"></i> Configurar Manualmente
+                    </button>
+                    <div id="db-log" class="log-output" style="display: none;"></div>
+                </div>
+
+                <!-- Paso 2: Verificar APIs -->
+                <div class="step-card">
+                    <h4><i class="fas fa-code"></i> Paso 2: Verificar APIs Biométricas</h4>
+                    <p>Comprobar que todas las APIs necesarias estén funcionando correctamente.</p>
+                    <button class="btn btn-success btn-action" onclick="verifyAPIs()">
+                        <i class="fas fa-check-circle"></i> Verificar APIs
+                    </button>
+                    <div id="api-log" class="log-output" style="display: none;"></div>
+                </div>
+
+                <!-- Paso 3: Test Completo -->
+                <div class="step-card">
+                    <h4><i class="fas fa-rocket"></i> Paso 3: Prueba Final del Sistema</h4>
+                    <p>Ejecutar un test completo para verificar que todo funciona correctamente.</p>
+                    <button class="btn btn-warning btn-action" onclick="runCompleteTest()">
+                        <i class="fas fa-flask"></i> Ejecutar Prueba Completa
+                    </button>
+                    <button class="btn btn-info btn-action" onclick="window.open('test-biometric-system-verification.html', '_blank')">
+                        <i class="fas fa-chart-line"></i> Ir a Panel de Diagnóstico
+                    </button>
+                    <div id="complete-log" class="log-output" style="display: none;"></div>
+                </div>
+
+                <!-- Acciones Rápidas -->
+                <div class="step-card">
+                    <h4><i class="fas fa-tools"></i> Acciones Rápidas</h4>
+                    <button class="btn btn-outline-primary btn-action" onclick="window.open('biometric-enrollment.php', '_blank')">
+                        <i class="fas fa-fingerprint"></i> Ir al Sistema Biométrico
+                    </button>
+                    <button class="btn btn-outline-success btn-action" onclick="refreshStatus()">
+                        <i class="fas fa-sync-alt"></i> Actualizar Estado
+                    </button>
+                    <button class="btn btn-outline-info btn-action" onclick="showHelp()">
+                        <i class="fas fa-question-circle"></i> Ayuda
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Variables globales
+        let systemReady = false;
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshStatus();
+        });
+
+        // Actualizar estado del sistema
+        async function refreshStatus() {
+            try {
+                // Verificar base de datos
+                const dbResponse = await fetch('api/biometric/diagnostic-fixed.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: 'database' })
+                });
+                
+                if (dbResponse.ok) {
+                    const dbResult = await dbResponse.json();
+                    updateStatus('db', dbResult.success, dbResult.success ? 'Conectado' : 'Error');
+                } else {
+                    updateStatus('db', false, 'No disponible');
+                }
+
+                // Verificar tablas
+                const tablesResponse = await fetch('api/biometric/diagnostic-fixed.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: 'tables' })
+                });
+                
+                if (tablesResponse.ok) {
+                    const tablesResult = await tablesResponse.json();
+                    updateStatus('tables', tablesResult.success, tablesResult.success ? 'Configuradas' : 'Faltan tablas');
+                } else {
+                    updateStatus('tables', false, 'Error verificando');
+                }
+
+                // Verificar APIs
+                const apiResponse = await fetch('api/biometric/diagnostic-fixed.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: 'apis' })
+                });
+                
+                if (apiResponse.ok) {
+                    const apiResult = await apiResponse.json();
+                    updateStatus('api', apiResult.success, apiResult.success ? 'Funcionando' : 'Con errores');
+                } else {
+                    updateStatus('api', false, 'Error verificando');
+                }
+
+            } catch (error) {
+                console.error('Error actualizando estado:', error);
+                updateStatus('db', false, 'Error de conexión');
+                updateStatus('tables', false, 'Error de conexión');
+                updateStatus('api', false, 'Error de conexión');
+            }
+        }
+
+        // Actualizar indicador de estado
+        function updateStatus(component, success, text) {
+            const statusElement = document.getElementById(component + '-status');
+            const textElement = document.getElementById(component + '-text');
+            
+            statusElement.className = 'status-indicator ' + (success ? 'status-success' : 'status-error');
+            textElement.textContent = text;
+        }
+
+        // Configurar base de datos automáticamente
+        async function setupDatabase() {
+            const logDiv = document.getElementById('db-log');
+            logDiv.style.display = 'block';
+            logDiv.innerHTML = '';
+            
+            function log(message) {
+                const timestamp = new Date().toLocaleTimeString();
+                logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+            
+            log('🚀 Iniciando configuración de base de datos...');
+            
+            try {
+                // Hacer una petición al script de configuración
+                const response = await fetch('setup-database.php');
+                
+                if (response.ok) {
+                    log('✅ Script de configuración ejecutado');
+                    log('🔄 Verificando resultado...');
+                    
+                    // Esperar un momento y verificar
+                    setTimeout(async () => {
+                        await refreshStatus();
+                        log('✅ Configuración completada - verificar estado arriba');
+                    }, 2000);
+                } else {
+                    throw new Error('Error ejecutando script de configuración');
+                }
+                
+            } catch (error) {
+                log('❌ Error: ' + error.message);
+                log('💡 Prueba abrir setup-database.php manualmente');
+            }
+        }
+
+        // Verificar APIs
+        async function verifyAPIs() {
+            const logDiv = document.getElementById('api-log');
+            logDiv.style.display = 'block';
+            logDiv.innerHTML = '';
+            
+            function log(message) {
+                const timestamp = new Date().toLocaleTimeString();
+                logDiv.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+            
+            log('🔍 Verificando APIs biométricas...');
+            
+            try {
+                const response = await fetch('api/biometric/diagnostic-fixed.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: 'apis' })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    log('✅ Todas las APIs están disponibles');
+                    result.data.apis.forEach(api => {
+                        const status = api.exists && api.readable ? '✅' : '❌';
+                        log(`${status} ${api.path} - ${api.description}`);
+                    });
+                } else {
+                    log('⚠️ Algunas APIs tienen problemas');
+                    log('Detalles: ' + result.message);
+                }
+                
+                await refreshStatus();
+                
+            } catch (error) {
+                log('❌ Error verificando APIs: ' + error.message);
+            }
+        }
+
+        // Ejecutar prueba completa
+        async function runCompleteTest() {
+            const logDiv = document.getElementById('complete-log');
+            logDiv.style.display = 'block';
+            logDiv.innerHTML = '';
+            
+            function log(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const color = type === 'success' ? 'color: #00ff00' : type === 'error' ? 'color: #ff0000' : 'color: #ffffff';
+                logDiv.innerHTML += `<div style="${color}">[${timestamp}] ${message}</div>`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+            
+            log('🚀 Iniciando prueba completa del sistema biométrico...', 'info');
+            log('═══════════════════════════════════════════════════', 'info');
+            
+            try {
+                const response = await fetch('api/biometric/diagnostic-fixed.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: 'complete' })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    log('🎉 SISTEMA COMPLETAMENTE FUNCIONAL', 'success');
+                    log('✅ Base de datos: OK', 'success');
+                    log('✅ Tablas: OK', 'success');
+                    log('✅ APIs: OK', 'success');
+                    systemReady = true;
+                } else {
+                    log('⚠️ SISTEMA REQUIERE ATENCIÓN', 'error');
+                    
+                    // Mostrar detalles de cada componente
+                    if (result.data) {
+                        Object.keys(result.data).forEach(component => {
+                            const status = result.data[component].success ? '✅' : '❌';
+                            const type = result.data[component].success ? 'success' : 'error';
+                            log(`${status} ${component}: ${result.data[component].message}`, type);
+                        });
+                    }
+                }
+                
+                log('═══════════════════════════════════════════════════', 'info');
+                
+                await refreshStatus();
+                
+            } catch (error) {
+                log('❌ Error en prueba completa: ' + error.message, 'error');
+            }
+        }
+
+        // Mostrar ayuda
+        function showHelp() {
+            alert(`
+🆘 AYUDA - Sistema Biométrico SynkTime
+
+📋 PASOS RECOMENDADOS:
+
+1️⃣ Configurar Base de Datos:
+   - Clic en "Configurar Automáticamente"
+   - O abrir setup-database.php manualmente
+
+2️⃣ Verificar APIs:
+   - Clic en "Verificar APIs"
+   - Revisar que todas estén disponibles
+
+3️⃣ Prueba Final:
+   - Clic en "Ejecutar Prueba Completa"
+   - Verificar que todo esté ✅
+
+🔧 SOLUCIÓN DE PROBLEMAS:
+
+❌ Base de Datos Error:
+   - Verificar que MySQL esté ejecutándose
+   - Ejecutar setup-database.php
+
+❌ APIs Error:
+   - Verificar permisos de archivos
+   - Comprobar configuración PHP
+
+❌ Tablas Error:
+   - Ejecutar configuración automática
+   - Revisar logs de errores
+
+💡 CONTACTO:
+   Si persisten los problemas, revisar la documentación del sistema.
+            `);
+        }
+    </script>
+</body>
+</html>

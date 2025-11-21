@@ -1,0 +1,47 @@
+# SNKTIME Python Service - Windows Requirements
+# Instala con: pip install -r requirements-windows.txt
+
+# Core dependencies
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Image processing
+numpy>=1.24.0
+pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Database
+pymysql>=1.1.0
+aiomysql>=0.1.1
+
+# HTTP client
+httpx>=0.25.0
+aiofiles>=23.2.1
+
+# Logging
+structlog>=23.2.0
+
+# Development
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Optional: AI/ML dependencies
+onnx>=1.14.0
+onnxruntime>=1.16.0
+
+# Optional: Hardware support
+pyserial>=3.5
+pyusb>=1.2.1
+
+# Optional: InsightFace (facial recognition)
+# Nota: Puede requerir instalación manual en Windows
+# pip install insightface
+# Si falla: pip install --no-deps insightface
+
+# Windows-specific
+python-dotenv>=1.0.0
+colorama>=0.4.6

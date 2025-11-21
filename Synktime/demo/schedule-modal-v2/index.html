@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Configuración de Horarios Interactiva | SynkTime</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="demo-container">
+        <header class="demo-header">
+            <h1><i class="fas fa-clock"></i> SynkTime - Demo Configuración de Horarios</h1>
+            <p class="subtitle">Interfaz interactiva con drag & drop y detección automática de turnos</p>
+        </header>
+
+        <main class="demo-main">
+            <button type="button" class="btn-open-modal" onclick="openScheduleModal()">
+                <i class="fas fa-plus-circle"></i> Abrir Configurador de Horarios
+            </button>
+
+            <div class="demo-info">
+                <h3>✨ Características de esta demo:</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> <strong>Drag & Drop Interactivo</strong> - Arrastra turnos en el timeline</li>
+                    <li><i class="fas fa-check"></i> <strong>Detección Automática</strong> - Tipo de horario calculado en tiempo real</li>
+                    <li><i class="fas fa-check"></i> <strong>Múltiples Turnos</strong> - Agrega turnos dinámicamente</li>
+                    <li><i class="fas fa-check"></i> <strong>Intervalos de 30min</strong> - Precisión de media hora</li>
+                    <li><i class="fas fa-check"></i> <strong>Validaciones en Vivo</strong> - Feedback instantáneo</li>
+                    <li><i class="fas fa-check"></i> <strong>Por Empleado</strong> - Sin configuración de sede/establecimiento</li>
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Configuración de Horarios -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-overlay" onclick="closeScheduleModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-clock"></i> Configurar Horario - <span id="employeeName">Juan Pérez</span></h2>
+                <button class="modal-close" onclick="closeScheduleModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Información Básica -->
+                <section class="config-section">
+                    <h3><i class="fas fa-info-circle"></i> Información Básica</h3>
+                    <div class="form-group">
+                        <label for="scheduleName">Nombre del Horario:</label>
+                        <input type="text" id="scheduleName" class="form-control" placeholder="Ej: Turno Matutino - Juan" value="Turno Matutino - Juan">
+                    </div>
+                </section>
+
+                <!-- Días de Aplicación -->
+                <section class="config-section">
+                    <h3><i class="fas fa-calendar-alt"></i> Días de Aplicación</h3>
+                    <div class="days-selector">
+                        <button class="day-btn" data-day="1" onclick="toggleDay(1)">
+                            <span class="day-label">Lun</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="day-btn" data-day="2" onclick="toggleDay(2)">
+                            <span class="day-label">Mar</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="day-btn" data-day="3" onclick="toggleDay(3)">
+                            <span class="day-label">Mié</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="day-btn" data-day="4" onclick="toggleDay(4)">
+                            <span class="day-label">Jue</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="day-btn" data-day="5" onclick="toggleDay(5)">
+                            <span class="day-label">Vie</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="day-btn" data-day="6" onclick="toggleDay(6)">
+                            <span class="day-label">Sáb</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="day-btn" data-day="7" onclick="toggleDay(7)">
+                            <span class="day-label">Dom</span>
+                            <span class="day-check"><i class="fas fa-check"></i></span>
+                        </button>
+                    </div>
+                    <div class="days-shortcuts">
+                        <button class="btn-shortcut" onclick="setDays([1,2,3,4,5])">Lun-Vie</button>
+                        <button class="btn-shortcut" onclick="setDays([1,2,3,4,5,6])">Lun-Sáb</button>
+                        <button class="btn-shortcut" onclick="setDays([1,2,3,4,5,6,7])">Todos</button>
+                        <button class="btn-shortcut" onclick="setDays([])">Limpiar</button>
+                    </div>
+                </section>
+
+                <!-- Timeline Interactivo -->
+                <section class="config-section">
+                    <h3><i class="fas fa-clock"></i> Configuración de Turnos</h3>
+                    <div class="timeline-help">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Arrastra los turnos o sus bordes para ajustar. Haz clic en el timeline para crear un nuevo turno.</span>
+                    </div>
+                    <div id="timelineContainer" class="timeline-container">
+                        <div class="hour-markers"></div>
+                        <div class="timeline-track">
+                            <div class="shifts-container"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="addShiftBtn" class="btn-add-shift" onclick="addNewShift()">
+                        <i class="fas fa-plus-circle"></i> Agregar Turno Adicional
+                    </button>
+                </section>
+
+                <!-- Lista de Turnos -->
+                <section class="config-section">
+                    <h3><i class="fas fa-list"></i> Turnos Configurados</h3>
+                    <div id="shiftsList" class="shifts-list"></div>
+                </section>
+
+                <!-- Información Automática -->
+                <section class="config-section validation-section">
+                    <h3><i class="fas fa-check-circle"></i> Validación y Tipo</h3>
+                    <div class="validation-summary"></div>
+                    <ul id="validationList" class="validation-list"></ul>
+                </section>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancelBtn" class="btn-secondary" onclick="closeScheduleModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button id="saveBtn" class="btn-primary" onclick="saveSchedule()">
+                    <i class="fas fa-save"></i> Guardar Horario
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para abrir/cerrar modal - debe estar ANTES del módulo -->
+    <script>
+        // Funciones globales para abrir/cerrar modal
+        function openScheduleModal() {
+            const modal = document.getElementById('scheduleModal');
+            if (modal) {
+                modal.classList.add('active');
+            } else {
+                console.error('Modal no encontrado');
+            }
+        }
+        
+        function closeScheduleModal() {
+            const modal = document.getElementById('scheduleModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+        
+        // Hacer disponibles globalmente INMEDIATAMENTE
+        window.openScheduleModal = openScheduleModal;
+        window.closeScheduleModal = closeScheduleModal;
+        
+        console.log('✓ Funciones de modal cargadas');
+    </script>
+    
+    <!-- Módulo principal - con versión para evitar caché -->
+    <script type="module" src="js/app.js?v=6"></script>
+</body>
+</html>

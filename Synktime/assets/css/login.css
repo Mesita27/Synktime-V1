@@ -1,0 +1,194 @@
+body {
+    background: linear-gradient(135deg, #e3f0ff 0%, #f0f6fe 100%);
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.login-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Marcos decorativos azules */
+.login-background-frame {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
+.login-background-frame .frame {
+    position: absolute;
+    border-radius: 36px;
+    border: 6px solid #2B7DE9;
+    opacity: 0.11;
+    box-shadow: 0 0 48px 0 #2b7de9;
+    transition: opacity 0.3s;
+}
+.login-background-frame .frame.frame1 {
+    width: 82vw;
+    height: 80vh;
+    left: 9vw;
+    top: 10vh;
+    border-color: #2B7DE9;
+}
+.login-background-frame .frame.frame2 {
+    width: 65vw;
+    height: 60vh;
+    left: 17vw;
+    top: 19vh;
+    border-color: #4B96FA;
+    opacity: 0.09;
+}
+.login-background-frame .frame.frame3 {
+    width: 45vw;
+    height: 44vh;
+    left: 27vw;
+    top: 28vh;
+    border-color: #1E5EBB;
+    opacity: 0.11;
+}
+
+.login-card {
+    background: var(--surface, #fff);
+    border-radius: 20px;
+    border: 2.5px solid #2B7DE9;
+    box-shadow: 0 8px 28px 4px rgba(43,125,233,0.08), 0 2px 16px 0 #b5d6fb;
+    padding: 40px 32px 32px 32px;
+    min-width: 330px;
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.5s cubic-bezier(.41,1.01,.87,1.02);
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px);}
+    to   { opacity: 1; transform: translateY(0);}
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-logo img {
+    width: 380px;
+    height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 8px rgba(43,125,233,0.13));
+    margin-bottom: 12px; /* Espacio pequeño entre logo y título */
+}
+
+.login-logo h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary, #2B7DE9);
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+.login-logo .tagline {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary, #718096);
+    margin-top: 4px;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    font-size: 1rem;
+    color: var(--text-primary, #2D3748);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border, #E2E8F0);
+    border-radius: 8px;
+    background: var(--primary-lighter, #f0f6fe);
+    font-size: 1rem;
+    color: var(--text-primary, #2D3748);
+    outline: none;
+    transition: border 0.2s;
+}
+
+.form-group input:focus {
+    border: 1.5px solid var(--primary, #2B7DE9);
+    background: #fff;
+}
+
+.btn-primary.btn-block {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary, #2B7DE9);
+    color: #fff;
+    font-size: 1.08rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.18s;
+}
+
+.btn-primary.btn-block:hover {
+    background: var(--primary-dark, #1E5EBB);
+}
+
+.login-error {
+    width: 100%;
+    margin-top: 16px;
+    color: var(--danger, #e53e3e);
+    background: #ffe5e5;
+    border-radius: 6px;
+    padding: 8px 0;
+    text-align: center;
+    font-size: 0.97rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+
+/* Responsive: reduce logo y frames en pantallas pequeñas */
+@media (max-width: 700px) {
+    .login-logo img {
+        width: 140px;
+        height: 140px;
+    }
+    .login-card {
+        padding: 24px 6vw 24px 6vw;
+        min-width: unset;
+        max-width: 98vw;
+    }
+    .login-background-frame .frame {
+        border-width: 3px;
+    }
+}

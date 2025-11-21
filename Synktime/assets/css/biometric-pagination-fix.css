@@ -1,0 +1,90 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 5px;
+}
+
+.pagination-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #333;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.pagination-btn:hover {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+}
+
+.pagination-btn.active {
+    background-color: #4e73df;
+    color: white;
+    border-color: #4e73df;
+}
+
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    color: #777;
+    font-size: 14px;
+}
+
+.pagination-info {
+    margin-top: 10px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* Estilos para corregir problemas de visualización en la tabla */
+.employee-table td {
+    vertical-align: middle;
+    padding: 0.75rem;
+}
+
+/* Asegurar que el código sea siempre visible */
+.employee-table td:first-child {
+    font-weight: bold;
+}
+
+/* Estilos para el modal */
+#biometricEnrollmentModal .modal-body {
+    padding: 20px;
+}
+
+#biometricEnrollmentModal .employee-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border-left: 4px solid #4e73df;
+}
+
+#biometricEnrollmentModal .employee-info p {
+    margin-bottom: 8px;
+}
+
+#biometricEnrollmentModal .employee-info strong {
+    font-weight: 600;
+    color: #333;
+}

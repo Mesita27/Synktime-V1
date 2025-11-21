@@ -1,0 +1,121 @@
+/**
+ * Estilos adicionales para el modal de enrolamiento avanzado
+ */
+
+/* Contenedor de miniaturas de capturas faciales */
+.samples-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.face-sample {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+.face-sample img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.face-sample.active {
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+/* Indicador de detección en tiempo real */
+.detection-indicator {
+    position: absolute;
+    border: 2px solid transparent;
+    border-radius: 2px;
+    z-index: 10;
+    display: none;
+}
+
+.detection-indicator.active {
+    display: block;
+    border-color: #28a745;
+}
+
+.detection-indicator.low-confidence {
+    border-color: #ffc107;
+}
+
+/* Mejoras visuales en el progreso */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+/* Estado del enrolamiento */
+#enrollment-message {
+    transition: all 0.3s ease;
+}
+
+/* Animaciones para el escáner de huella */
+@keyframes pulse {
+    0% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 0.5; transform: scale(1); }
+}
+
+.scanner-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,123,255,0.2) 0%, rgba(0,123,255,0) 70%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.scanner-animation.active {
+    animation: pulse 2s infinite;
+    opacity: 1;
+}
+
+/* Mejora visual para el contenedor de la cámara */
+.camera-container {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    height: 360px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#faceVideo, #faceCanvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#faceCanvas {
+    z-index: 5;
+}
+
+/* Animación de captura */
+@keyframes capture-flash {
+    0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+.capture-flash {
+    animation: capture-flash 1s ease-out;
+}

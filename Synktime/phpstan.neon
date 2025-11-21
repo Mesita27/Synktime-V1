@@ -1,0 +1,9 @@
+parameters:
+    level: max
+    paths:
+        - api
+        - includes
+        - models
+        - components
+    autoload_files:
+        - vendor/autoload.php

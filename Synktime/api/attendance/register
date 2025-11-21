@@ -1,0 +1,250 @@
+<?php
+// Evitar cualquier output antes de los headers
+ob_start();
+
+require_once __DIR__ . '/../../auth/session.php';
+requireAuth();
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/timezone.php';
+require_once __DIR__ . '/../../utils/attendance_verification.php';
+
+// Limpiar cualquier output anterior
+ob_clean();
+
+header('Content-Type: application/json');
+header('Cache-Control: no-cache, no-store, must-revalidate');
+
+// Establecer zona horaria de Colombia
+// Zona horaria configurada en config/timezone.php
+
+try {
+    // Obtener información del usuario actual
+    $currentUser = getCurrentUser();
+    $empresaId = $currentUser['id_empresa'] ?? null;
+    
+    if (!$empresaId) {
+        echo json_encode(['success' => false, 'message' => 'Sesión inválida - empresa no encontrada']);
+        exit;
+    }
+
+    // Verificar que existe el directorio uploads
+    $uploads_dir = __DIR__ . '/../../uploads/';
+    if (!file_exists($uploads_dir)) {
+        mkdir($uploads_dir, 0755, true);
+    }
+
+    // Recoge los datos POST
+    $id_empleado = $_POST['id_empleado'] ?? null;
+    $fecha = $_POST['fecha'] ?? getBogotaDate();
+    $id_horario = $_POST['id_horario'] ?? null; // **NUEVO: Recibir id_horario del frontend**
+
+    // Validación de datos obligatorios
+    if (!$id_empleado) {
+        echo json_encode(['success' => false, 'message' => 'ID de empleado requerido']);
+        exit;
+    }
+
+    if (!$id_horario) {
+        echo json_encode(['success' => false, 'message' => 'ID de horario requerido']);
+        exit;
+    }
+
+    // Validar que el empleado pertenezca a la empresa del usuario
+    $sql_employee_check = "
+        SELECT e.ID_EMPLEADO, e.NOMBRE, e.APELLIDO
+        FROM empleado e
+        JOIN establecimiento est ON e.ID_ESTABLECIMIENTO = est.ID_ESTABLECIMIENTO
+        JOIN sede s ON est.ID_SEDE = s.ID_SEDE
+        WHERE e.ID_EMPLEADO = ? AND e.ACTIVO = 'S' AND s.ID_EMPRESA = ?
+    ";
+    $stmt = $conn->prepare($sql_employee_check);
+    $stmt->execute([$id_empleado, $empresaId]);
+    $employee = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$employee) {
+        echo json_encode(['success' => false, 'message' => 'Empleado no encontrado, inactivo o no pertenece a su empresa']);
+        exit;
+    }
+
+    // **VALIDACIÓN MEJORADA: Determinar el tipo de horario y buscar en la columna correcta**
+    // Primero verificar si el id_horario corresponde a un horario personalizado o tradicional
+    $tipo_horario = null;
+    $id_horario_real = null;
+    $id_empleado_horario_real = null;
+
+    // Verificar si es un ID de horario personalizado
+    $sql_check_personalizado = "
+        SELECT ID_EMPLEADO_HORARIO, 'personalizado' as tipo
+        FROM empleado_horario_personalizado
+        WHERE ID_EMPLEADO_HORARIO = ?
+        AND ID_EMPLEADO = ?
+    ";
+    $stmt = $conn->prepare($sql_check_personalizado);
+    $stmt->execute([$id_horario, $id_empleado]);
+        $horario_personalizado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($horario_personalizado) {
+        $tipo_horario = 'personalizado';
+        $id_empleado_horario_real = $id_horario;
+    } else {
+        // Verificar si es un ID de horario tradicional
+        $sql_check_tradicional = "
+            SELECT eh.ID_EMPLEADO_HORARIO, 'legacy' as tipo
+            FROM empleado_horario eh
+            WHERE eh.ID_HORARIO = ?
+            AND eh.ID_EMPLEADO = ?
+            AND eh.ACTIVO = 'S'
+        ";
+        $stmt = $conn->prepare($sql_check_tradicional);
+        $stmt->execute([$id_horario, $id_empleado]);
+        $horario_tradicional = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($horario_tradicional) {
+            $tipo_horario = 'legacy';
+            $id_horario_real = $id_horario;
+            $id_empleado_horario_real = $horario_tradicional['ID_EMPLEADO_HORARIO'];
+        }
+    }
+
+    if (!$tipo_horario) {
+        echo json_encode(['success' => false, 'message' => 'Horario no encontrado o no válido para este empleado.']);
+        exit;
+    }
+
+    // **VALIDACIÓN CORREGIDA: Verificar que existe una entrada para este horario específico que NO tenga salida**
+    $sql_check_entrada_horario = "
+        SELECT COUNT(*) as entradas_sin_salida
+        FROM asistencia a
+        WHERE a.ID_EMPLEADO = ?
+        AND a.FECHA = ?
+        AND a.TIPO = 'ENTRADA'
+        AND NOT EXISTS (
+            SELECT 1 FROM asistencia a2
+            WHERE a2.ID_EMPLEADO = a.ID_EMPLEADO
+            AND a2.FECHA = a.FECHA
+            AND a2.TIPO = 'SALIDA'
+            AND (
+                (a.ID_EMPLEADO_HORARIO IS NOT NULL AND a2.ID_EMPLEADO_HORARIO = a.ID_EMPLEADO_HORARIO)
+                OR
+                (a.ID_HORARIO IS NOT NULL AND a2.ID_HORARIO = a.ID_HORARIO)
+            )
+        )
+        AND (
+            (a.ID_EMPLEADO_HORARIO = ? AND ? = 'personalizado')
+            OR
+            (a.ID_HORARIO = ? AND ? = 'legacy')
+        )
+    ";
+    $stmt = $conn->prepare($sql_check_entrada_horario);
+    $stmt->execute([
+        $id_empleado,
+        $fecha,
+        $id_empleado_horario_real,
+        $tipo_horario,
+        $id_horario_real,
+        $tipo_horario
+    ]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result['entradas_sin_salida'] == 0) {
+        echo json_encode(['success' => false, 'message' => 'No hay entrada abierta para este horario específico, o ya se registró la salida correspondiente.']);
+        exit;
+    }
+
+    // **CORREGIDO: Encontrar la entrada específica de este horario**
+    $sql_entrada_horario = "
+        SELECT
+            a.ID_ASISTENCIA,
+            a.ID_HORARIO,
+            a.ID_EMPLEADO_HORARIO,
+            a.OBSERVACION,
+            a.HORA as hora_entrada
+        FROM asistencia a
+        WHERE a.ID_EMPLEADO = ?
+        AND a.FECHA = ?
+        AND a.TIPO = 'ENTRADA'
+        AND (
+            (a.ID_EMPLEADO_HORARIO = ? AND ? = 'personalizado')
+            OR
+            (a.ID_HORARIO = ? AND ? = 'legacy')
+        )
+        AND NOT EXISTS (
+            SELECT 1 FROM asistencia a2
+            WHERE a2.ID_EMPLEADO = a.ID_EMPLEADO
+            AND a2.FECHA = a.FECHA
+            AND a2.TIPO = 'SALIDA'
+            AND (
+                (a.ID_EMPLEADO_HORARIO IS NOT NULL AND a2.ID_EMPLEADO_HORARIO = a.ID_EMPLEADO_HORARIO)
+                OR
+                (a.ID_HORARIO IS NOT NULL AND a2.ID_HORARIO = a.ID_HORARIO)
+            )
+        )
+        ORDER BY a.HORA DESC
+        LIMIT 1
+    ";
+    $stmt = $conn->prepare($sql_entrada_horario);
+    $stmt->execute([
+        $id_empleado,
+        $fecha,
+        $id_empleado_horario_real,
+        $tipo_horario,
+        $id_horario_real,
+        $tipo_horario
+    ]);
+    $entradaHorario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$entradaHorario) {
+        echo json_encode(['success' => false, 'message' => 'No se encontró una entrada abierta para este horario específico.']);
+        exit;
+    }
+
+    // Crear observación basada en la entrada
+    // **CORREGIDO: Usar los datos de la entrada específica del horario**
+    $idHorario = $tipo_horario === 'legacy' ? $id_horario_real : null;
+    $idEmpleadoHorario = $tipo_horario === 'personalizado' ? $id_empleado_horario_real : null;
+    $observacion = $entradaHorario['OBSERVACION'];
+    
+    // Preparar datos para registro
+    $hora_actual = $hora_manual ?? getBogotaTime();
+    $hora_normalizada = formatTimeForAttendance($hora_actual);
+    $tardanza = 'N';  // Por defecto no hay tardanza en salidas
+
+    // **SIMPLIFICADO: Registrar salida usando los mismos datos que la entrada**
+    $sql = "INSERT INTO asistencia
+        (ID_EMPLEADO, FECHA, TIPO, HORA, TARDANZA, OBSERVACION, FOTO, REGISTRO_MANUAL, ID_HORARIO, ID_EMPLEADO_HORARIO, TIPO_HORARIO, VERIFICATION_METHOD, CREATED_AT)
+        VALUES (?, ?, 'SALIDA', ?, ?, ?, NULL, 'S', ?, ?, ?, ?, NOW())";
+
+    $stmt = $conn->prepare($sql);
+    $verificationMethod = normalizeVerificationMethod('manual');
+    $ok = $stmt->execute([
+        $id_empleado,
+        $fecha,
+        $hora_normalizada,
+        $tardanza,
+        $observacion,
+        $idHorario,           // ID_HORARIO (puede ser null para personalizados)
+        $idEmpleadoHorario,   // ID_EMPLEADO_HORARIO (puede ser null para tradicionales)
+        $tipo_horario,
+        $verificationMethod   // Tipo de verificación almacenado
+    ]);
+    
+    if ($ok) {
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Salida registrada correctamente',
+            'registro' => [
+                'hora' => $hora_normalizada,
+                'hora_original' => $hora_actual,
+                'verification_method' => $verificationMethod
+            ]
+        ]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al registrar la salida.']);
+    }
+
+} catch (PDOException $e) {
+    echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+}
+?>

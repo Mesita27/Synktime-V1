@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico Modal Biométrico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Diagnóstico Modal Biométrico</h1>
+        <button id="btnAyudaBiometrico" class="btn btn-primary">
+            <i class="fas fa-question-circle"></i> Ayuda Biométrica
+        </button>
+        <button id="btnDiagnostic" class="btn btn-secondary ms-2">
+            <i class="fas fa-stethoscope"></i> Diagnosticar
+        </button>
+    </div>
+
+    <!-- Modal de ayuda biométrica -->
+    <div id="modalAyudaBiometrico">
+        <div class="custom-modal-content">
+            <div class="custom-modal-header">
+                <h5 class="custom-modal-title">
+                    <i class="fas fa-fingerprint"></i>
+                    Guía de Ayuda Biométrica
+                </h5>
+                <button type="button" class="custom-modal-close" onclick="hideBiometricHelpModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="custom-modal-body">
+                <div class="help-content">
+                    <div class="help-alert help-alert-info">
+                        <h6><i class="fas fa-info-circle"></i> Información Importante</h6>
+                        <p>Esta es una guía completa para el sistema de asistencia biométrica.</p>
+                    </div>
+                    <h6 class="help-section-title">
+                        <i class="fas fa-list-ul"></i>
+                        Funciones Principales
+                    </h6>
+                    <ul class="help-list">
+                        <li><i class="fas fa-check"></i> Registro de huellas dactilares</li>
+                        <li><i class="fas fa-check"></i> Verificación de identidad</li>
+                        <li><i class="fas fa-check"></i> Control de acceso</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="custom-modal-footer">
+                <button type="button" class="custom-btn custom-btn-secondary" onclick="hideBiometricHelpModal()">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estilos del modal (iguales que en enrolamiento-biometrico.php) -->
+    <style>
+/* Modal Overlay - Estilo Bootstrap compatible */
+#modalAyudaBiometrico {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    display: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1060 !important;
+    backdrop-filter: blur(2px);
+}
+
+/* Modal visible */
+#modalAyudaBiometrico.show {
+    display: flex !important;
+}
+
+/* Modal Content - Bootstrap compatible */
+.custom-modal-content {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3) !important;
+    max-width: 900px !important;
+    width: 90% !important;
+    max-height: 90vh !important;
+    overflow: hidden !important;
+    position: relative !important;
+    border: none !important;
+    transform: scale(0.9) !important;
+    transition: transform 0.3s ease-out !important;
+}
+
+#modalAyudaBiometrico.show .custom-modal-content {
+    transform: scale(1) !important;
+}
+
+/* Modal Header - Bootstrap compatible */
+.custom-modal-header {
+    padding: 1.5rem !important;
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+    color: white !important;
+    border-radius: 12px 12px 0 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
+    border-bottom: none !important;
+}
+
+.custom-modal-title {
+    margin: 0 !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding-right: 3rem !important;
+}
+
+.custom-modal-close {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid rgba(255, 255, 255, 1) !important;
+    color: #333 !important;
+    font-size: 1.5rem !important;
+    cursor: pointer !important;
+    padding: 0.5rem !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: absolute !important;
+    top: 1rem !important;
+    right: 1rem !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    z-index: 10 !important;
+}
+
+.custom-modal-close:hover {
+    background: white !important;
+    border-color: white !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.custom-modal-close:active {
+    transform: scale(0.95) !important;
+}
+
+/* Modal Body - Bootstrap compatible */
+.custom-modal-body {
+    padding: 1.5rem !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    background: white !important;
+}
+
+/* Modal Footer - Bootstrap compatible */
+.custom-modal-footer {
+    padding: 1rem 1.5rem !important;
+    background: #f8f9fa !important;
+    border-top: 1px solid #dee2e6 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 0.75rem !important;
+    border-radius: 0 0 12px 12px !important;
+}
+
+/* Estilos adicionales para el contenido de ayuda */
+.help-content {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.help-alert {
+    padding: 1rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 1.5rem !important;
+    border-left: 4px solid !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
+}
+
+.help-alert-info {
+    background: #d1ecf1 !important;
+    border-left-color: #17a2b8 !important;
+    color: #0c5460 !important;
+}
+
+.help-alert h6 {
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 600 !important;
+}
+
+.help-section-title {
+    color: #2c3e50 !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.help-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.help-list li {
+    padding: 0.5rem 0 !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+.help-list li:last-child {
+    border-bottom: none !important;
+}
+
+/* Botones personalizados - Bootstrap compatible */
+.custom-btn {
+    padding: 0.75rem 1.5rem !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    text-decoration: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.custom-btn-secondary {
+    background: #6c757d !important;
+    color: white !important;
+}
+
+.custom-btn-secondary:hover {
+    background: #5a6268 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* Responsive - Bootstrap compatible */
+@media (max-width: 768px) {
+    .custom-modal-content {
+        width: 95% !important;
+        margin: 1rem !important;
+        max-height: 95vh !important;
+    }
+
+    .custom-modal-header,
+    .custom-modal-body,
+    .custom-modal-footer {
+        padding: 1rem !important;
+    }
+
+    .custom-modal-title {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* Accesibilidad - Bootstrap compatible */
+.custom-modal-close:focus,
+.custom-btn:focus {
+    outline: 2px solid #007bff !important;
+    outline-offset: 2px !important;
+}
+
+/* Animaciones suaves */
+.custom-modal-content {
+    animation: modalFadeIn 0.3s ease-out !important;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Override Bootstrap modal styles */
+.modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.modal {
+    z-index: 1055 !important;
+}
+
+/* Debug styles - para diagnóstico */
+.debug-info {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    max-width: 300px;
+    z-index: 9999;
+}
+    </style>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript del modal -->
+    <script>
+        function showBiometricHelpModal() {
+            console.log('🚀 Mostrando modal de ayuda biométrica...');
+            const modal = document.getElementById('modalAyudaBiometrico');
+            if (modal) {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                console.log('✅ Modal mostrado correctamente');
+                updateDebugInfo();
+            } else {
+                console.error('❌ Modal no encontrado');
+            }
+        }
+
+        function hideBiometricHelpModal() {
+            console.log('🚀 Ocultando modal de ayuda biométrica...');
+            const modal = document.getElementById('modalAyudaBiometrico');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+                console.log('✅ Modal ocultado correctamente');
+                updateDebugInfo();
+            } else {
+                console.error('❌ Modal no encontrado');
+            }
+        }
+
+        function updateDebugInfo() {
+            const modal = document.getElementById('modalAyudaBiometrico');
+            if (modal) {
+                const computedStyle = window.getComputedStyle(modal);
+                const debugInfo = document.getElementById('debugInfo') || createDebugInfo();
+
+                debugInfo.innerHTML = `
+                    <strong>Modal Debug:</strong><br>
+                    Display: ${computedStyle.display}<br>
+                    Z-index: ${computedStyle.zIndex}<br>
+                    Position: ${computedStyle.position}<br>
+                    Visibility: ${computedStyle.visibility}<br>
+                    Opacity: ${computedStyle.opacity}<br>
+                    Has 'show' class: ${modal.classList.contains('show')}<br>
+                    Content visible: ${computedStyle.display === 'flex'}
+                `;
+            }
+        }
+
+        function createDebugInfo() {
+            const debugDiv = document.createElement('div');
+            debugDiv.id = 'debugInfo';
+            debugDiv.className = 'debug-info';
+            document.body.appendChild(debugDiv);
+            return debugDiv;
+        }
+
+        function runDiagnostic() {
+            console.log('🔍 === DIAGNÓSTICO DEL MODAL BIOMÉTRICO ===');
+
+            const modal = document.getElementById('modalAyudaBiometrico');
+            const button = document.getElementById('btnAyudaBiometrico');
+
+            console.log('1. Elementos encontrados:');
+            console.log('   - Modal:', !!modal);
+            console.log('   - Botón:', !!button);
+
+            if (modal) {
+                console.log('2. Estructura del modal:');
+                console.log('   - Content:', !!modal.querySelector('.custom-modal-content'));
+                console.log('   - Header:', !!modal.querySelector('.custom-modal-header'));
+                console.log('   - Body:', !!modal.querySelector('.custom-modal-body'));
+                console.log('   - Footer:', !!modal.querySelector('.custom-modal-footer'));
+
+                console.log('3. Estilos computados:');
+                const computedStyle = window.getComputedStyle(modal);
+                console.log('   - Display:', computedStyle.display);
+                console.log('   - Z-index:', computedStyle.zIndex);
+                console.log('   - Position:', computedStyle.position);
+                console.log('   - Visibility:', computedStyle.visibility);
+                console.log('   - Opacity:', computedStyle.opacity);
+
+                console.log('4. Contenido del modal:');
+                const body = modal.querySelector('.custom-modal-body');
+                if (body) {
+                    console.log('   - Body tiene contenido:', body.innerHTML.length > 0);
+                    console.log('   - Texto del body:', body.textContent.substring(0, 100) + '...');
+                }
+
+                console.log('5. Funciones disponibles:');
+                console.log('   - showBiometricHelpModal:', typeof showBiometricHelpModal === 'function');
+                console.log('   - hideBiometricHelpModal:', typeof hideBiometricHelpModal === 'function');
+            }
+
+            console.log('6. Bootstrap loaded:', typeof bootstrap !== 'undefined');
+
+            console.log('=== FIN DIAGNÓSTICO ===');
+
+            updateDebugInfo();
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('btnAyudaBiometrico');
+            const diagnosticBtn = document.getElementById('btnDiagnostic');
+
+            if (button) {
+                button.addEventListener('click', showBiometricHelpModal);
+                console.log('✅ Event listener agregado al botón de ayuda');
+            } else {
+                console.error('❌ Botón de ayuda no encontrado');
+            }
+
+            if (diagnosticBtn) {
+                diagnosticBtn.addEventListener('click', runDiagnostic);
+                console.log('✅ Event listener agregado al botón de diagnóstico');
+            }
+
+            // Cerrar modal al hacer clic fuera
+            const modal = document.getElementById('modalAyudaBiometrico');
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        hideBiometricHelpModal();
+                    }
+                });
+            }
+
+            // Inicializar debug info
+            updateDebugInfo();
+        });
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideBiometricHelpModal();
+            }
+        });
+    </script>
+</body>
+</html>

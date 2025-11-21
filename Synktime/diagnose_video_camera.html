@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico de Video y Cámara</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        video { border: 1px solid #ccc; max-width: 100%; }
+        canvas { border: 1px solid #ccc; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Diagnóstico de Video y Cámara</h1>
+
+    <div id="status"></div>
+
+    <h2>1. Verificar API de Media</h2>
+    <div id="media-api-status" class="status info">Verificando...</div>
+
+    <h2>2. Verificar Cámara</h2>
+    <div id="camera-status" class="status info">Verificando...</div>
+    <button onclick="testCamera()">Probar Cámara</button>
+    <button onclick="stopCamera()">Detener Cámara</button>
+
+    <h2>3. Elementos de Video</h2>
+    <video id="testVideo" width="320" height="240" autoplay muted></video>
+    <canvas id="testCanvas" width="320" height="240"></canvas>
+
+    <h2>4. Captura de Foto</h2>
+    <button onclick="capturePhoto()">Capturar Foto</button>
+    <div id="capture-status" class="status info">Listo para capturar</div>
+
+    <h2>5. Información del Sistema</h2>
+    <div id="system-info" class="status info">Cargando...</div>
+
+    <script>
+        let stream = null;
+
+        // Verificar APIs disponibles
+        function checkMediaAPI() {
+            const status = document.getElementById('media-api-status');
+
+            if (!navigator.mediaDevices) {
+                status.className = 'status error';
+                status.textContent = '❌ navigator.mediaDevices no está disponible';
+                return false;
+            }
+
+            if (!navigator.mediaDevices.getUserMedia) {
+                status.className = 'status error';
+                status.textContent = '❌ getUserMedia no está disponible';
+                return false;
+            }
+
+            status.className = 'status success';
+            status.textContent = '✅ APIs de media disponibles';
+            return true;
+        }
+
+        // Probar acceso a la cámara
+        async function testCamera() {
+            const status = document.getElementById('camera-status');
+            const video = document.getElementById('testVideo');
+
+            try {
+                status.className = 'status info';
+                status.textContent = 'Solicitando acceso a la cámara...';
+
+                const constraints = {
+                    video: {
+                        width: { ideal: 640 },
+                        height: { ideal: 480 },
+                        facingMode: 'user'
+                    }
+                };
+
+                stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+
+                status.className = 'status success';
+                status.textContent = '✅ Cámara accesible y funcionando';
+
+                // Esperar a que el video se cargue
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        console.log('Video loaded:', {
+                            videoWidth: video.videoWidth,
+                            videoHeight: video.videoHeight,
+                            readyState: video.readyState
+                        });
+                        resolve();
+                    };
+                });
+
+                updateSystemInfo();
+
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = `❌ Error al acceder a la cámara: ${error.message}`;
+                console.error('Camera error:', error);
+            }
+        }
+
+        // Detener la cámara
+        function stopCamera() {
+            const status = document.getElementById('camera-status');
+            const video = document.getElementById('testVideo');
+
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+                video.srcObject = null;
+
+                status.className = 'status warning';
+                status.textContent = '⚠️ Cámara detenida';
+            } else {
+                status.className = 'status info';
+                status.textContent = 'La cámara ya está detenida';
+            }
+        }
+
+        // Capturar foto
+        function capturePhoto() {
+            const status = document.getElementById('capture-status');
+            const video = document.getElementById('testVideo');
+            const canvas = document.getElementById('testCanvas');
+
+            try {
+                status.className = 'status info';
+                status.textContent = 'Capturando foto...';
+
+                if (!video || !canvas) {
+                    throw new Error('Elementos de video o canvas no encontrados');
+                }
+
+                console.log('Video status:', {
+                    videoWidth: video.videoWidth,
+                    videoHeight: video.videoHeight,
+                    paused: video.paused,
+                    ended: video.ended,
+                    readyState: video.readyState,
+                    srcObject: !!video.srcObject
+                });
+
+                if (video.videoWidth === 0 || video.videoHeight === 0) {
+                    throw new Error('Video no tiene dimensiones válidas');
+                }
+
+                if (video.paused || video.ended) {
+                    throw new Error('Video no está reproduciendo');
+                }
+
+                const ctx = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = canvas.toDataURL('image/jpeg', 0.8);
+
+                status.className = 'status success';
+                status.textContent = `✅ Foto capturada exitosamente (${imageData.length} caracteres)`;
+
+                console.log('Photo captured successfully, size:', imageData.length);
+
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = `❌ Error al capturar foto: ${error.message}`;
+                console.error('Capture error:', error);
+            }
+        }
+
+        // Actualizar información del sistema
+        function updateSystemInfo() {
+            const info = document.getElementById('system-info');
+            const video = document.getElementById('testVideo');
+
+            const systemData = {
+                userAgent: navigator.userAgent,
+                mediaDevices: !!navigator.mediaDevices,
+                getUserMedia: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia),
+                videoDimensions: video ? `${video.videoWidth}x${video.videoHeight}` : 'N/A',
+                videoReadyState: video ? video.readyState : 'N/A',
+                streamActive: !!stream
+            };
+
+            info.innerHTML = `
+                <strong>Información del sistema:</strong><br>
+                User Agent: ${systemData.userAgent}<br>
+                Media Devices API: ${systemData.mediaDevices ? '✅' : '❌'}<br>
+                getUserMedia: ${systemData.getUserMedia ? '✅' : '❌'}<br>
+                Dimensiones del video: ${systemData.videoDimensions}<br>
+                Estado del video: ${systemData.videoReadyState}<br>
+                Stream activo: ${systemData.streamActive ? '✅' : '❌'}
+            `;
+
+            if (systemData.mediaDevices && systemData.getUserMedia) {
+                info.className = 'status success';
+            } else {
+                info.className = 'status error';
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            checkMediaAPI();
+            updateSystemInfo();
+        });
+
+        // Cleanup al cerrar la página
+        window.addEventListener('beforeunload', function() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>

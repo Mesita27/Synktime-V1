@@ -1,0 +1,171 @@
+/**
+ * Estilos para el sistema de reconocimiento facial BlazeFace
+ */
+
+/* Contenedor de la cámara */
+.camera-container {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    /* Añadido aspect-ratio para mantener proporciones correctas */
+    aspect-ratio: 4/3;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #000; /* Fondo negro para mejor contraste */
+}
+
+/* Estilo para el video de la cámara */
+#faceVideo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: #f0f0f0;
+    object-fit: cover; /* Asegura que el video cubra todo el contenedor */
+}
+
+/* Canvas para dibujar la detección facial */
+#faceCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Estado de la detección */
+.detection-status {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 6px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#face-detection-status,
+#face-detection-confidence {
+    font-weight: bold;
+}
+
+/* Efecto de flash al capturar */
+.camera-flash {
+    animation: flash 0.2s ease-out;
+}
+
+@keyframes flash {
+    0% { opacity: 0.7; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0; }
+}
+
+/* Botones de cámara */
+.camera-controls .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 0 5px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.camera-controls .btn i {
+    margin-right: 6px;
+}
+
+/* Instrucciones de captura */
+.capture-info {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.capture-info h6 {
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.capture-info li {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.capture-info li i {
+    margin-right: 8px;
+}
+
+/* Barra de progreso */
+.capture-progress {
+    margin-top: 15px;
+}
+
+.capture-progress h6 {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.progress-bar {
+    background-color: #28a745;
+    transition: width 0.3s ease;
+}
+
+/* Alerta para mensajes */
+#enrollment-alerts {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+#enrollment-alerts .alert {
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* Limitar altura del cuerpo del modal para evitar scroll excesivo */
+.modal-body {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Mejorar el z-index para que el modal siempre esté por encima */
+.modal.show {
+    z-index: 1050 !important;
+}
+
+.modal-backdrop.show {
+    z-index: 1040 !important;
+}
+
+/* Estilos responsive */
+@media (max-width: 768px) {
+    .camera-container {
+        max-width: 100%;
+        aspect-ratio: 3/4; /* Formato vertical para móviles */
+    }
+    
+    .camera-controls {
+        flex-wrap: wrap;
+    }
+    
+    .camera-controls .btn {
+        margin: 5px;
+        flex: 1 0 auto;
+    }
+    
+    .modal-body {
+        padding: 10px;
+    }
+}

@@ -1,0 +1,114 @@
+
+services:
+  synktime-db:
+    image: mariadb:10.4
+    container_name: synktime-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "Miau$210718"
+      MYSQL_DATABASE: "synktime"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "Miau$210718"
+      TZ: "America/Bogota"
+    command: ["mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    ports:
+      - "3306:3306"   # Opcional; quítalo en producción si no necesitas acceso externo
+    volumes:
+      - synktime-mariadb-data:/var/lib/mysql
+      - ./.docker/mysql/lower-case.cnf:/etc/mysql/conf.d/lower-case.cnf
+    networks:
+      - synktime-net
+
+  synktime-pma:
+    image: phpmyadmin:5.2.1-apache
+    container_name: synktime-pma
+    restart: unless-stopped
+    environment:
+      PMA_HOST: synktime-db
+      UPLOAD_LIMIT: 128M
+    ports:
+      - "8081:80"
+    depends_on:
+      - synktime-db
+    networks:
+      - synktime-net
+
+  synktime-python:
+    build:
+      context: .
+      dockerfile: .docker/python.Dockerfile
+    container_name: synktime-python
+    restart: unless-stopped
+    environment:
+      DB_HOST: synktime-db
+      DB_PORT: "3306"
+      DB_NAME: "synktime"
+      DB_USER: "root"
+      DB_PASSWORD: "Miau$210718"
+      INSIGHTFACE_MODEL_PATH: "models"
+      INSIGHTFACE_MODEL_NAME: "buffalo_l"
+      PY_SERVICE_HOST: "0.0.0.0"
+      PY_SERVICE_PORT: "8000"
+      TZ: "America/Bogota"
+    volumes:
+      - synktime-models:/app/models
+    ports:
+      - "8000:8000"
+    depends_on:
+      - synktime-db
+    networks:
+      - synktime-net
+
+  synktime-web:
+    build:
+      context: .
+      dockerfile: .docker/web.Dockerfile
+    container_name: synktime-web
+    restart: unless-stopped
+    environment:
+      APP_ENV: "local"
+      ENVIRONMENT: "local"
+      DB_HOST: synktime-db
+      DB_PORT: "3306"
+      DB_NAME: "synktime"
+      DB_USER: "root"
+      DB_PASSWORD: "Miau$210718"
+      DB_CHARSET: "utf8mb4"
+      DB_TIMEZONE: "-05:00"
+      PHP_DISPLAY_ERRORS: "1"
+      TZ: "America/Bogota"
+      PY_SERVICE_URL: "http://synktime-python:8000"
+      PYTHON_SERVICE_INTERNAL_URL: "http://synktime-python:8000"
+      PYTHON_SERVICE_FORCE_PUBLIC_IP: "http://localhost:8000"
+      PYTHON_SERVICE_PUBLIC_URL: "http://localhost:8000"
+      PYTHON_SERVICE_URL: "http://localhost:8000"
+    command:
+      - /bin/bash
+      - -lc
+      - >
+        set -e;
+        find /var/www/html -type d -exec chmod 755 {} \;;
+        find /var/www/html -type f -exec chmod 644 {} \;;
+        chmod -R 775 /var/www/html/storage /var/www/html/logs /var/www/html/uploads || true;
+        chown -R www-data:www-data /var/www/html/storage /var/www/html/logs /var/www/html/uploads || true;
+        exec apache2-foreground
+    ports:
+      - "8080:80"
+    volumes:
+      - synktime-storage:/var/www/html/storage
+      - synktime-uploads:/var/www/html/uploads
+    depends_on:
+      - synktime-db
+      - synktime-python
+    networks:
+      - synktime-net
+
+volumes:
+  synktime-mariadb-data:
+  synktime-storage:
+  synktime-uploads:
+  synktime-models:
+
+networks:
+  synktime-net:
+    driver: bridge

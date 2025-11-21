@@ -1,0 +1,3531 @@
+/* horarios-personalizados.css */
+/* Estilos específicos para el módulo de horarios personalizados */
+
+/* ===========================================
+   LAYOUT GENERAL
+   =========================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-card:nth-child(1) .stat-icon { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.stat-card:nth-child(2) .stat-icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.stat-card:nth-child(3) .stat-icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.stat-card:nth-child(4) .stat-icon { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2d3748;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #718096;
+    margin-top: 0.25rem;
+}
+
+/* ===========================================
+   TABLA DE EMPLEADOS
+   =========================================== */
+
+.employee-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f7fafc;
+    border-radius: 50%;
+    color: #a0aec0;
+    font-size: 1.5rem;
+}
+
+.employee-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.employee-name {
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.25rem;
+}
+
+.employee-meta {
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    display: inline-block;
+}
+
+.status-active {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.status-warning {
+    background: #feebc8;
+    color: #c05621;
+}
+
+.status-inactive {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-buttons .btn-sm {
+    padding: 0.375rem 0.5rem;
+    min-width: auto;
+}
+
+/* ===========================================
+   MODAL DE HORARIOS
+   =========================================== */
+
+.modal-xl .modal-dialog {
+    max-width: 1200px;
+    width: 95%;
+}
+
+.modal-large {
+    max-width: 1400px;
+    width: 98%;
+}
+
+/* Responsive adjustments for modal-large */
+@media (max-width: 1440px) {
+    .modal-large {
+        max-width: 95%;
+        width: 95%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .modal-large {
+        max-width: 90%;
+        width: 90%;
+    }
+}
+
+.employee-info-panel {
+    background: #f7fafc;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.employee-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: #a0aec0;
+}
+
+.employee-details {
+    flex: 1;
+}
+
+.employee-details h4 {
+    margin: 0 0 0.5rem 0;
+    color: #2d3748;
+}
+
+.employee-metadata {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.employee-detail {
+    font-size: 0.875rem;
+    color: #4a5568;
+}
+
+.employee-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* ===========================================
+   PANEL DE VIGENCIA
+   =========================================== */
+
+.schedule-validity-panel {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.schedule-validity-panel h4 {
+    margin: 0 0 1rem 0;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* ===========================================
+   CONFIGURACIÓN SEMANAL
+   =========================================== */
+
+.weekly-schedule-container {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.day-tabs {
+    display: flex;
+    background: #f7fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.day-tab {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background: transparent;
+    color: #4a5568;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-right: 1px solid #e2e8f0;
+}
+
+.day-tab:last-child {
+    border-right: none;
+}
+
+.day-tab:hover {
+    background: #edf2f7;
+    color: #2d3748;
+}
+
+.day-tab.active {
+    background: #667eea;
+    color: white;
+}
+
+.schedule-indicator {
+    background: #48bb78;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1;
+}
+
+.day-tab.active .schedule-indicator {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.day-schedule-content {
+    padding: 1.5rem;
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.day-header h4 {
+    margin: 0;
+    color: #2d3748;
+}
+
+/* ===========================================
+   TURNOS
+   =========================================== */
+
+.shifts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.shift-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.shift-card:hover {
+    border-color: #cbd5e0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.shift-active {
+    border-color: #48bb78;
+    background: #f0fff4;
+}
+
+.shift-expired {
+    border-color: #f56565;
+    background: #fffaf0;
+}
+
+.shift-inactive {
+    border-color: #a0aec0;
+    background: #f7fafc;
+    opacity: 0.7;
+}
+
+.shift-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shift-title {
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.shift-name {
+    font-weight: 600;
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.shift-name:focus {
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.shift-body {
+    padding: 1rem;
+}
+
+.shift-time-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 120px auto;
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 1rem;
+}
+
+.shift-meta-row {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    margin-bottom: 0.5rem;
+}
+
+.shift-validity-row {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.shift-validity-row .form-group {
+    flex: 1;
+}
+
+.shift-validity-row .form-text {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.shift-duration {
+    display: flex;
+    align-items: center;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.shift-duration .text-warning {
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+}
+
+/* Estilos para validación de tiempo en tiempo real */
+.time-input.is-invalid {
+    border-color: #dc3545;
+    background-color: #fff5f5;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.time-input.is-valid {
+    border-color: #28a745;
+    background-color: #f8fff8;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: #dc3545;
+    animation: fadeInError 0.3s ease-in;
+}
+
+@keyframes fadeInError {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de duración en tiempo real */
+.shift-duration small {
+    transition: all 0.3s ease;
+}
+
+.shift-duration small:hover {
+    transform: scale(1.05);
+}
+
+/* Indicadores visuales para duraciones */
+.duration-normal {
+    color: #28a745;
+}
+
+.duration-warning {
+    color: #ffc107;
+}
+
+.duration-error {
+    color: #dc3545;
+}
+
+.shift-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.status-indicator {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-indicator.shift-active {
+    background: #c6f6d5;
+    color: #22543d;
+}
+
+.status-indicator.shift-expired {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.status-indicator.shift-inactive {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.no-shifts-message {
+    text-align: center;
+    padding: 3rem;
+    color: #718096;
+}
+
+.no-shifts-message i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #cbd5e0;
+}
+
+.no-shifts-message p {
+    margin: 1rem 0;
+    font-size: 1.125rem;
+}
+
+/* ===========================================
+   EMPLEADOS SELECCIONADOS
+   =========================================== */
+
+.selected-employees-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.selected-employees-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.employee-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #edf2f7;
+    color: #2d3748;
+    padding: 0.5rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+}
+
+.remove-employee {
+    background: none;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    padding: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.remove-employee:hover {
+    background: #cbd5e0;
+    color: #2d3748;
+}
+
+/* ===========================================
+   MODAL DE AYUDA
+   =========================================== */
+
+.help-content h4 {
+    color: #2d3748;
+    margin: 1.5rem 0 0.5rem 0;
+}
+
+.help-content h4:first-child {
+    margin-top: 0;
+}
+
+.help-content p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.help-content ul, .help-content ol {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.help-content li {
+    margin-bottom: 0.5rem;
+}
+
+.help-content strong {
+    color: #2d3748;
+}
+
+/* ===========================================
+   NOTIFICACIONES
+   =========================================== */
+
+.notifications-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 400px;
+}
+
+.notification {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-left: 4px solid;
+    animation: slideInRight 0.3s ease forwards; /* Added forwards to maintain final state */
+    opacity: 1; /* Ensure notification stays visible after animation */
+}
+
+.notification-success {
+    border-left-color: #48bb78;
+}
+
+.notification-error {
+    border-left-color: #f56565;
+}
+
+.notification-info {
+    border-left-color: #4299e1;
+}
+
+.notification-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.notification-content i {
+    font-size: 1.25rem;
+}
+
+.notification-success .notification-content i {
+    color: #48bb78;
+}
+
+.notification-error .notification-content i {
+    color: #f56565;
+}
+
+.notification-info .notification-content i {
+    color: #4299e1;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.notification-close:hover {
+    background: #f7fafc;
+    color: #4a5568;
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
+/* ===========================================
+   PAGINACIÓN
+   =========================================== */
+
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 10px;
+}
+
+.pagination-info {
+    color: #4a5568;
+    font-size: 0.875rem;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.btn-pagination {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #4a5568;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.btn-pagination:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+}
+
+.btn-pagination.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.btn-pagination:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===========================================
+   RESPONSIVO
+   =========================================== */
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .day-tabs {
+        flex-direction: column;
+    }
+    
+    .day-tab {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .shift-time-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .shift-meta-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .employee-info-panel {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .pagination-controls {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-xl .modal-dialog {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .schedule-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .schedule-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .modal-notifications-container {
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+    }
+}
+
+/* ===========================================
+   ESTADOS DE CARGA
+   =========================================== */
+
+.loading-text {
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+}
+
+.loading-text i {
+    margin-right: 0.5rem;
+}
+
+/* ===========================================
+   UTILIDADES ADICIONALES
+   =========================================== */
+
+.text-muted {
+    color: #718096 !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.d-block {
+    display: block;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ===========================================
+   MEJORAS EN FORMULARIOS
+   =========================================== */
+
+.form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-text {
+    font-size: 0.875rem;
+    color: #718096;
+    margin-top: 0.25rem;
+}
+
+/* ===========================================
+   ANIMACIONES
+   =========================================== */
+
+.shift-card {
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===========================================
+   MODAL DE EXPORTACIÓN
+   =========================================== */
+
+.schedule-query-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.schedule-query-form {
+    width: 100%;
+}
+
+.query-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .query-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
+/* Estilos específicos para el modal de exportación */
+.modal .schedule-query-box {
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.modal .query-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .modal .query-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
+.modal .form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.375rem;
+}
+
+/* Campos obligatorios */
+.modal .form-group label .required {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+.schedule-summary {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.summary-item i {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+}
+
+.summary-label {
+    font-weight: 500;
+    margin-right: 0.5rem;
+    color: #6c757d;
+}
+
+.summary-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #495057;
+}
+
+.schedule-view-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.schedules-by-day {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.day-schedule-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.day-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.day-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.turnos-count {
+    background: rgba(255,255,255,0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.turnos-list {
+    padding: 1.5rem;
+}
+
+.turno-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #007bff;
+    transition: all 0.2s ease;
+}
+
+.turno-item:hover {
+    background: #e9ecef;
+    transform: translateX(2px);
+}
+
+.turno-item:last-child {
+    margin-bottom: 0;
+}
+
+.turno-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.turno-header h5 {
+    margin: 0;
+    color: #495057;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.turno-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.75rem;
+}
+
+.time-info,
+.tolerance-info,
+.validity-info,
+.observations-info {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.time-info i,
+.tolerance-info i,
+.validity-info i,
+.observations-info i {
+    margin-right: 0.5rem;
+    width: 16px;
+    color: #007bff;
+}
+
+.time-info {
+    font-weight: 600;
+    color: #495057;
+    font-size: 1rem;
+}
+
+.no-schedules-message {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #6c757d;
+}
+
+.no-schedules-message i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #dee2e6;
+}
+
+.no-schedules-message h4 {
+    margin-bottom: 0.5rem;
+    color: #495057;
+}
+
+.no-schedules-message p {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* ===========================================
+   ORDER INDICATOR STYLES
+   =========================================== */
+
+.shift-drag-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    min-width: 32px;
+    gap: 6px;
+    color: #4a5568;
+    cursor: default;
+    margin-right: 10px;
+    user-select: none;
+}
+
+.shift-drag-handle i {
+    font-size: 0.8rem;
+}
+
+.shift-drag-handle.shift-drag-locked {
+    background: rgba(113, 128, 150, 0.08);
+    border-radius: 6px;
+    padding: 0.2rem 0.4rem;
+}
+
+.shift-order-index {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.shift-card.shift-conflict {
+    border-color: #f56565;
+    box-shadow: 0 6px 18px rgba(245, 101, 101, 0.18);
+}
+
+.shift-conflict-warning {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    background: rgba(245, 101, 101, 0.12);
+    color: #c53030;
+    font-size: 0.85rem;
+    display: flex;
+    gap: 0.5rem;
+    line-height: 1.35;
+}
+
+.shift-conflict-warning i {
+    margin-top: 0.2rem;
+}
+
+.shift-header {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shift-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.shift-actions .badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Mejoras visuales para estados */
+.shift-card.shift-active {
+    border-left: 4px solid #48bb78;
+}
+
+.shift-card.shift-expired {
+    border-left: 4px solid #f56565;
+}
+
+.shift-card.shift-inactive {
+    border-left: 4px solid #a0aec0;
+}
+
+/* Animaciones para drag & drop */
+.shifts-container {
+    transition: all 0.3s ease;
+}
+
+.shift-card {
+    transition: all 0.2s ease, transform 0.1s ease;
+}
+
+.shift-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Modal responsive */
+@media (max-width: 768px) {
+    .summary-card {
+        grid-template-columns: 1fr;
+    }
+    
+    .turno-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .day-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .shift-drag-handle {
+        display: none; /* Ocultar handle en móviles */
+    }
+}
+
+/* ===========================================
+   VALIDACIÓN EN TIEMPO REAL
+   =========================================== */
+
+/* Validación de campos de tiempo en tiempo real */
+.time-input.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    animation: shake 0.5s ease-in-out;
+}
+
+.time-input.is-valid {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Clases para indicadores de duración */
+.duration-normal {
+    color: #28a745 !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.duration-warning {
+    color: #ffc107 !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.duration-error {
+    color: #dc3545 !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+/* Animaciones */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Mejoras visuales adicionales */
+.shift-duration {
+    transition: all 0.3s ease;
+    padding: 0.25rem 0;
+}
+
+.shift-duration small {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* Feedback visual para cambios en tiempo real */
+.time-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.real-time-update {
+    animation: highlight 0.5s ease-in-out;
+}
+
+@keyframes highlight {
+    0% { background-color: rgba(255, 193, 7, 0.3); }
+    100% { background-color: transparent; }
+}
+
+/* ===========================================
+   🌙 ESTILOS PARA TURNOS NOCTURNOS
+   =========================================== */
+
+/* Card de turno nocturno */
+.shift-nocturno {
+    border-left: 4px solid #6f42c1 !important;
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+    position: relative;
+}
+
+.shift-nocturno .shift-header {
+    background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%);
+    color: white;
+}
+
+.shift-nocturno .shift-header .shift-title input {
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.shift-nocturno .shift-header .shift-title input:focus {
+    background: white;
+    border-color: #6f42c1;
+}
+
+/* Badge para turnos nocturnos */
+.badge-purple {
+    background-color: #6f42c1;
+    color: white;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+/* Inputs de tiempo en turnos nocturnos */
+.shift-nocturno .time-input {
+    border-color: #6f42c1;
+    border-width: 2px;
+}
+
+.shift-nocturno .time-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+    border-color: #5a2d91;
+}
+
+/* Indicador de duración para turnos nocturnos */
+.duration-nocturno {
+    color: #6f42c1;
+    font-weight: 600;
+}
+
+/* Advertencia de turno nocturno */
+.night-schedule-warning {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 50%, #fff3cd 100%);
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+    color: #856404;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    animation: fadeInWarning 0.5s ease-in-out;
+}
+
+.night-schedule-warning i {
+    color: #6f42c1;
+    margin-top: 2px;
+    font-size: 1.1rem;
+}
+
+.night-schedule-warning strong {
+    color: #5a2d91;
+}
+
+/* Animación para la advertencia */
+@keyframes fadeInWarning {
+    0% { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Efecto especial para el icono de luna */
+.fas.fa-moon {
+    animation: moonGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+    0% { opacity: 0.8; }
+    100% { opacity: 1; text-shadow: 0 0 5px rgba(111, 66, 193, 0.5); }
+}
+
+/* Tooltip mejorado para turnos nocturnos */
+.shift-nocturno[title]::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #6f42c1;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 1000;
+}
+
+.shift-nocturno:hover[title]::after {
+    opacity: 1;
+}
+
+/* Labels mejorados para turnos nocturnos */
+.shift-nocturno label {
+    color: #5a2d91;
+    font-weight: 600;
+}
+
+/* Indicador visual en tabs de días con turnos nocturnos */
+.day-tab.has-night-shift {
+    position: relative;
+}
+
+.day-tab.has-night-shift::after {
+    content: '🌙';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 0.8rem;
+    background: #6f42c1;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+/* Mejoras responsive para turnos nocturnos */
+@media (max-width: 768px) {
+    .badge-purple {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+    }
+    
+    .night-schedule-warning {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+    }
+    
+    .shift-nocturno .shift-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+/* ===========================================
+   MODAL DE SELECCIÓN DE EMPLEADOS
+   =========================================== */
+
+.empleados-selector {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+}
+
+.empleados-selector:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-hover);
+}
+
+.empleados-selector.active {
+    border-color: var(--primary-color);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.empleados-text {
+    flex: 1;
+    text-align: left;
+}
+
+.empleados-count {
+    background: var(--primary-color);
+    color: white;
+    border-radius: 12px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}
+
+.empleados-count.show {
+    display: inline-block;
+}
+
+/* Employee Selection Modal for Export */
+.modal-empleados-export .modal-content {
+    max-width: 500px;
+    width: 95%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    margin: 2vh auto;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    backdrop-filter: blur(20px);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-empleados-export .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.modal-empleados-export .modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-empleados-export .modal-header h3 i {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.5rem;
+}
+
+.modal-empleados-export .modal-header .modal-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.125rem;
+}
+
+.modal-empleados-export .modal-header .modal-close:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+/* Location filters row */
+.location-filters-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .location-filters-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+}
+
+.modal-empleados .modal-body {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* Search Section */
+.empleados-search {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.8);
+}
+
+.search-group {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.875rem 3rem 0.875rem 1rem;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    background: white;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.search-input::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.search-icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+/* Actions Section */
+.empleados-actions {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    gap: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    justify-content: center;
+}
+
+.btn-text {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.btn-text:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    color: white;
+}
+
+.btn-text:active {
+    transform: translateY(0);
+}
+
+/* Employees List */
+.empleados-list-container {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 350px;
+    background: rgba(255,255,255,0.6);
+}
+
+.empleados-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.3) transparent;
+}
+
+.empleados-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.empleados-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+.empleados-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.empleados-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+}
+
+.empleado-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    position: relative;
+}
+
+.empleado-item:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.empleado-item:last-child {
+    border-bottom: none;
+}
+
+.empleado-item.selected {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-left: 4px solid #667eea;
+}
+
+.empleado-checkbox {
+    margin-right: 1rem;
+    cursor: pointer;
+    transform: scale(1.2);
+    accent-color: #667eea;
+}
+
+.empleado-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.empleado-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.empleado-details {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.empleado-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.125rem;
+}
+
+.empleado-meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Loading and No Results */
+.empleados-loading,
+.empleados-no-results {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Modal Footer */
+/* Modal Footer for Employee Selection */
+.modal-empleados-export .modal-footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 0 0 16px 16px;
+}
+
+.selected-count {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.selected-count::before {
+    content: '👥';
+    font-size: 1rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-actions .btn-secondary {
+    background: #6b7280;
+    border: 2px solid #6b7280;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.form-actions .btn-secondary:hover {
+    background: #4b5563;
+    border-color: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.form-actions .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid transparent;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.form-actions .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-empleados .modal-content {
+        width: 95%;
+        max-width: 400px;
+        max-height: 80vh;
+        margin: 10vh auto;
+    }
+    
+    .empleados-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .empleados-search {
+        padding: 1rem;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        padding: 1rem;
+    }
+    
+    .form-actions {
+        justify-content: stretch;
+        gap: 0.5rem;
+    }
+    
+    .form-actions .btn-secondary,
+    .form-actions .btn-primary {
+        flex: 1;
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .empleado-item {
+        padding: 1rem;
+    }
+    
+    .empleado-info {
+        gap: 0.5rem;
+    }
+    
+    .empleado-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.625rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-empleados .modal-content {
+        width: 98%;
+        max-width: none;
+        max-height: 85vh;
+        margin: 7.5vh auto;
+    }
+    
+    .empleados-list-container {
+        min-height: 200px;
+    }
+    
+    .empleados-search {
+        padding: 0.75rem;
+    }
+    
+    .search-input {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .modal-footer {
+        padding: 0.75rem;
+    }
+}
+
+/* === MODAL DE SELECCIÓN DE EMPLEADOS (ESTILO HORAS TRABAJADAS) === */
+.modal-empleados-export {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal principal de exportación */
+#exportModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#exportModal .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+}
+
+#exportModal .modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    background: #ffffff;
+}
+
+#exportModal .modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: #ffffff;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.modal-empleados-export .modal-content {
+    position: relative;
+    background: #ffffff;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-empleados-export .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+}
+
+.modal-empleados-export .modal-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.modal-empleados-export .modal-header h3 i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.modal-empleados-export .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.modal-empleados-export .modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.modal-empleados-export .modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+    background: #ffffff;
+    max-height: calc(90vh - 200px); /* Ajustar para dejar espacio al footer */
+}
+
+.modal-empleados-export .form-group {
+    margin-bottom: 1rem;
+}
+
+.modal-empleados-export .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.modal-empleados-export .form-group input,
+.modal-empleados-export .form-group textarea,
+.modal-empleados-export .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.modal-empleados-export .form-group input:focus,
+.modal-empleados-export .form-group textarea:focus,
+.modal-empleados-export .form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.modal-empleados-export .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-empleados-export .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Employee Selection Button */
+.modal-empleados-export .empleados-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    background: #ffffff !important;
+    position: relative;
+}
+
+.modal-empleados-export .empleados-btn:hover {
+    border-color: var(--primary-color);
+}
+
+.modal-empleados-export .empleados-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 0.5rem;
+}
+
+.modal-empleados-export .empleados-count {
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    margin-right: 0.5rem;
+    min-width: 20px;
+    text-align: center;
+    display: none;
+}
+
+.modal-empleados-export .empleados-count.show {
+    display: inline-block;
+}
+
+.modal-empleados-export .empleados-btn i {
+    color: var(--text-secondary);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.modal-empleados-export .empleados-btn.active i {
+    transform: rotate(180deg);
+}
+
+/* Employee Selection Modal */
+.modal-empleados-export .empleados-list-container {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.modal-empleados-export .empleados-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.modal-empleados-export .empleados-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-empleados-export .empleados-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-empleados-export .empleados-list::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.modal-empleados-export .empleados-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+.modal-empleados-export .empleado-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--border-light);
+    min-height: 50px;
+    width: 100%;
+}
+
+.modal-empleados-export .empleado-item:hover {
+    background: var(--bg-hover);
+}
+
+.modal-empleados-export .empleado-item:last-child {
+    border-bottom: none;
+}
+
+.modal-empleados-export .empleado-checkbox {
+    margin-right: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.modal-empleados-export .empleado-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+    transform: scale(0.8);
+    transform-origin: center;
+}
+
+.modal-empleados-export .empleado-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.modal-empleados-export .empleado-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.modal-empleados-export .empleado-details {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+}
+
+.modal-empleados-export .empleado-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.125rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.modal-empleados-export .empleado-meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.modal-empleados-export .empleado-meta span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+}
+
+/* Loading and No Results */
+.modal-empleados-export .empleados-loading,
+.modal-empleados-export .empleados-no-results {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.modal-empleados-export .empleados-loading i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.modal-empleados-export .empleados-no-results i {
+    color: var(--info-color);
+    margin-right: 0.5rem;
+}
+
+/* Modal Footer */
+.modal-empleados-export .modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.modal-empleados-export .selected-count {
+    font-size: 0.875rem;
+    color: #000000;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-empleados-export .selected-count::before {
+    display: none;
+}
+
+.modal-empleados-export .selected-count span {
+    background: transparent;
+    color: #000000;
+    padding: 0;
+    border-radius: 0;
+    font-weight: 500;
+    font-size: 0.875rem;
+    min-width: auto;
+    text-align: center;
+}
+
+.modal-empleados-export .selected-count i {
+    color: var(--primary-color);
+}
+
+/* Responsive adjustments for employee modal */
+@media (max-width: 768px) {
+    .modal-empleados-export .modal-content {
+        margin: 5% auto;
+        max-height: 85vh;
+        width: 95%;
+    }
+    .modal-empleados-export .empleados-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+    }
+    .modal-empleados-export .empleado-item {
+        padding: 0.75rem 1rem;
+    }
+    .modal-empleados-export .empleado-meta {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    .modal-empleados-export .modal-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+        padding: 1rem;
+    }
+    .modal-empleados-export .form-actions {
+        justify-content: stretch;
+        gap: 0.5rem;
+    }
+    .modal-empleados-export .form-actions button {
+        flex: 1;
+    }
+    .modal-empleados-export .empleados-list-container {
+        min-height: 200px;
+    }
+    .modal-empleados-export .empleados-btn {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Contenedor de notificaciones para modales */
+.modal-notifications-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+.modal-notifications-container .notification {
+    pointer-events: auto;
+}
+
+/* ===========================================
+   MODAL DE HORARIO TEMPORAL
+   =========================================== */
+
+.modal-temporal-schedule {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal-content-temporal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 1200px;
+    min-width: 800px;
+    width: 95%;
+    max-height: 90vh;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 8px 32px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-header h3 i {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.5rem;
+}
+
+.modal-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1.125rem;
+}
+
+.modal-close:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+.modal-body-temporal {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+}
+
+.temporal-step-1 {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    flex-direction: row;
+}
+
+/* Estados del modal - Layout responsivo */
+.temporal-step-1.no-selection .empleados-section {
+    flex: 1;
+    width: 100%;
+    border-right: none;
+    border-bottom: none;
+}
+
+.temporal-step-1.no-selection .schedule-config-section {
+    display: none;
+}
+
+.temporal-step-1.has-selection .empleados-section {
+    border-right: 1px solid rgba(0,0,0,0.08);
+    border-bottom: none;
+}
+
+.temporal-step-1.has-selection .schedule-config-section {
+    display: flex;
+}
+
+/* Sección de empleados (izquierda) */
+.empleados-section {
+    display: flex;
+    flex-direction: column;
+    min-width: 350px;
+    padding: 1.5rem 2rem;
+    transition: all 0.3s ease;
+}
+
+.empleados-section h4 {
+    margin: 0 0 1rem 0;
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.empleados-section h4 i {
+    color: #667eea;
+}
+
+/* Sección de configuración de horario (derecha) */
+.schedule-config-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.schedule-config-section h4 {
+    margin: 0 0 1.5rem 0;
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.schedule-config-section h4 i {
+    color: #667eea;
+}
+
+/* Formulario en grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 0 2rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.form-group label .required {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background: white;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+
+.form-control[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.form-control[type="number"]::-webkit-outer-spin-button,
+.form-control[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Lista de empleados */
+.empleados-list-container {
+    flex: 1;
+    padding: 1rem 2rem;
+    overflow-y: auto;
+    min-height: 300px;
+}
+
+.empleados-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.empleado-item {
+    background: white;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+
+.empleado-item:hover {
+    border-color: #667eea;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.empleado-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin: 0;
+}
+
+.empleado-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+    margin-right: 0.75rem;
+    position: relative;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.empleado-checkbox input:checked + .checkmark {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+}
+
+.empleado-checkbox input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.empleado-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.empleado-nombre {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.empleado-detalles {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Estados de carga y sin resultados */
+.empleados-loading,
+.empleados-no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.empleados-loading i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #667eea;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.empleados-no-results i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #9ca3af;
+}
+
+/* Footer del modal */
+.modal-footer {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 16px 16px;
+}
+
+.selected-count {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-secondary,
+.btn-success {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary {
+    background: #6b7280;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .modal-content-temporal {
+        max-width: 95%;
+        min-width: 700px;
+        width: 95%;
+    }
+
+    .temporal-step-1 {
+        flex-direction: column;
+    }
+
+    .temporal-step-1.no-selection .empleados-section,
+    .temporal-step-1.has-selection .empleados-section {
+        border-right: none;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        min-width: auto;
+        max-height: 50vh;
+        width: 100%;
+    }
+
+    .temporal-step-1.has-selection .schedule-config-section {
+        min-width: auto;
+        max-height: 50vh;
+        width: 100%;
+        border-bottom: none;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-content-temporal {
+        width: 98%;
+        min-width: 320px;
+        max-height: 95vh;
+    }
+
+    .modal-header {
+        padding: 1rem 1.5rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1.125rem;
+    }
+
+    .empleados-section h4,
+    .schedule-config-section h4 {
+        font-size: 1rem;
+    }
+
+    .empleados-section,
+    .schedule-config-section {
+        padding: 1rem 1.5rem;
+    }
+
+    .form-grid {
+        padding: 0 1.5rem;
+    }
+
+    .modal-footer {
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .form-actions {
+        justify-content: flex-end;
+    }
+
+    .btn-secondary,
+    .btn-success {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content-temporal {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .modal-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .empleados-section h4,
+    .schedule-config-section h4 {
+        padding: 0.75rem 1rem 0 1rem;
+    }
+
+    .empleados-search,
+    .empleados-actions {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .empleados-list-container {
+        padding: 0.75rem 1rem;
+    }
+
+    .form-grid {
+        padding: 0 1rem;
+    }
+
+    .modal-footer {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Animaciones */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ===========================================
+   SISTEMA DE NOTIFICACIONES PARA MODALES
+   =========================================== */
+
+.modal-notifications-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    max-width: 90%;
+    width: auto;
+    min-width: 300px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-notifications-container .notification {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    padding: 15px 20px;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+    display: flex;
+    align-items: flex-start;
+    border-left: 4px solid;
+}
+
+.modal-notifications-container .notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-notifications-container .notification-icon {
+    margin-right: 15px;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.modal-notifications-container .notification-content {
+    flex-grow: 1;
+}
+
+.modal-notifications-container .notification-message {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.modal-notifications-container .notification-close {
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 5px;
+    align-self: flex-start;
+    transition: color 0.2s ease;
+}
+
+.modal-notifications-container .notification-close:hover {
+    color: #666;
+}
+
+/* Variaciones por tipo para modal */
+.modal-notifications-container .notification-info {
+    border-left-color: #3498db;
+}
+
+.modal-notifications-container .notification-info .notification-icon {
+    color: #3498db;
+}
+
+.modal-notifications-container .notification-success {
+    border-left-color: #2ecc71;
+}
+
+.modal-notifications-container .notification-success .notification-icon {
+    color: #2ecc71;
+}
+
+.modal-notifications-container .notification-warning {
+    border-left-color: #f39c12;
+}
+
+.modal-notifications-container .notification-warning .notification-icon {
+    color: #f39c12;
+}
+
+.modal-notifications-container .notification-error {
+    border-left-color: #e74c3c;
+}
+
+.modal-notifications-container .notification-error .notification-icon {
+    color: #e74c3c;
+}
+
+/* ===========================================
+   CONTENEDOR GLOBAL DE NOTIFICACIONES
+   =========================================== */
+
+.global-notifications-container {
+    position: fixed;
+    top: 80px; /* Debajo del header */
+    right: 20px;
+    z-index: 1050; /* Por encima de la mayoría de elementos */
+    max-width: 400px;
+    width: auto;
+    min-width: 300px;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    pointer-events: none; /* No interferir con clics */
+}
+
+.global-notifications-container .notification {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 12px;
+    padding: 16px 20px;
+    transform: translateX(420px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    align-items: flex-start;
+    border-left: 4px solid;
+    pointer-events: auto; /* Permitir interacción con la notificación */
+    position: relative;
+}
+
+.global-notifications-container .notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.global-notifications-container .notification-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.global-notifications-container .notification-content i {
+    margin-top: 2px;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.global-notifications-container .notification-content span {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+    font-weight: 500;
+}
+
+.global-notifications-container .notification-close {
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    align-self: flex-start;
+    transition: color 0.2s ease;
+    margin-left: 8px;
+    border-radius: 3px;
+}
+
+.global-notifications-container .notification-close:hover {
+    color: #666;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Variaciones por tipo para contenedor global */
+.global-notifications-container .notification-success {
+    border-left-color: #10b981;
+}
+
+.global-notifications-container .notification-success .notification-content i {
+    color: #10b981;
+}
+
+.global-notifications-container .notification-error {
+    border-left-color: #ef4444;
+}
+
+.global-notifications-container .notification-error .notification-content i {
+    color: #ef4444;
+}
+
+.global-notifications-container .notification-warning {
+    border-left-color: #f59e0b;
+}
+
+.global-notifications-container .notification-warning .notification-content i {
+    color: #f59e0b;
+}
+
+.global-notifications-container .notification-info {
+    border-left-color: #3b82f6;
+}
+
+.global-notifications-container .notification-info .notification-content i {
+    color: #3b82f6;
+}
+
+/* Animación de entrada */
+@keyframes slideInRight {
+    from {
+        transform: translateX(420px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Animación de salida */
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(420px);
+        opacity: 0;
+    }
+}
+
+/* ===========================================
+   MODAL DE AYUDA CON TABS
+   =========================================== */
+
+.help-tabs {
+    display: flex;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+    background: #f8fafc;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+}
+
+.help-tab {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: #f1f5f9;
+    color: #64748b;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.help-tab:last-child {
+    border-right: none;
+}
+
+.help-tab:hover {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.help-tab.active {
+    background: #3b82f6;
+    color: white;
+    font-weight: 600;
+}
+
+.help-tab.active:hover {
+    background: #2563eb;
+}
+
+.help-content {
+    display: none;
+    padding: 0;
+}
+
+.help-content.active {
+    display: block;
+}
+
+.help-content h4 {
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.help-content h5 {
+    color: #334155;
+    margin: 1.5rem 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.help-content p {
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.help-content ul, .help-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+/* Excluir estilos generales para el modal temporal */
+.modal-temporal-schedule .empleado-item {
+    background: transparent !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    position: static !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ===========================================
+   MODAL TEMPORAL - ESTILOS PROFESIONALES MEJORADOS
+   =========================================== */
+
+.modal-temporal-schedule .empleados-list .empleado-item {
+    display: flex !important;
+    align-items: center !important;
+    padding: 1rem 1.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    min-height: 70px !important;
+    width: 100% !important;
+    transform: none !important;
+    position: static !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+    border-radius: 8px !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    margin: 0.25rem 0 !important;
+    position: relative !important;
+}
+
+.modal-temporal-schedule .empleados-list .empleado-item::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.02) 0%, rgba(147, 51, 234, 0.02) 100%) !important;
+    border-radius: 8px !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+    pointer-events: none !important;
+}
+
+.modal-temporal-schedule .empleados-list .empleado-item:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.modal-temporal-schedule .empleados-list .empleado-item:hover::before {
+    opacity: 1 !important;
+}
+
+.modal-temporal-schedule .empleados-list .empleado-item:last-child {
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+}
+
+.modal-temporal-schedule .empleados-list .empleado-item.selected {
+    background: linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%) !important;
+    border: 2px solid #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.modal-temporal-schedule .empleados-list .empleado-item.selected::before {
+    opacity: 1 !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(147, 51, 234, 0.08) 100%) !important;
+}
+
+.modal-temporal-schedule .empleado-checkbox {
+    margin-right: 1rem !important;
+    cursor: pointer !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.modal-temporal-schedule .empleado-checkbox input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer !important;
+    accent-color: #3b82f6 !important;
+    border: 2px solid #d1d5db !important;
+    border-radius: 4px !important;
+    background: white !important;
+    transition: all 0.2s ease !important;
+}
+
+.modal-temporal-schedule .empleado-checkbox input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%) !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+.modal-temporal-schedule .empleado-info {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+}
+
+.modal-temporal-schedule .empleado-details {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+    overflow: hidden !important;
+    gap: 0.25rem !important;
+}
+
+.modal-temporal-schedule .empleado-name {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    margin-bottom: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.4 !important;
+    letter-spacing: -0.01em !important;
+}
+
+.modal-temporal-schedule .empleado-meta {
+    font-size: 0.875rem !important;
+    color: #6b7280 !important;
+    display: flex !important;
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+    overflow: hidden !important;
+    line-height: 1.4 !important;
+}
+
+.modal-temporal-schedule .empleado-meta span {
+    background: rgba(156, 163, 175, 0.1) !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+    color: #4b5563 !important;
+    border: 1px solid rgba(156, 163, 175, 0.2) !important;
+}
+
+.modal-temporal-schedule .empleado-info {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.modal-temporal-schedule .empleado-info *,
+.modal-temporal-schedule .empleado-details,
+.modal-temporal-schedule .empleado-name,
+.modal-temporal-schedule .empleado-meta,
+.modal-temporal-schedule .empleado-meta span {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: inherit !important;
+}
+
+/* Asegurar que los elementos puedan recibir eventos de click */
+.modal-temporal-schedule .empleados-list .empleado-item,
+.modal-temporal-schedule .empleado-checkbox,
+.modal-temporal-schedule .empleado-info,
+.modal-temporal-schedule .empleado-details,
+.modal-temporal-schedule .empleado-name,
+.modal-temporal-schedule .empleado-meta {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.help-content strong {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.help-content em {
+    color: #64748b;
+    font-style: italic;
+}

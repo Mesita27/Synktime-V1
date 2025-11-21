@@ -1,0 +1,215 @@
+{
+  "system": {
+    "name": "SNKTIME Biometric Attendance System",
+    "version": "1.0.0",
+    "environment": "development",
+    "debug": true
+  },
+
+  "services": {
+    "python_api": {
+      "host": "127.0.0.1",
+      "port": 8000,
+      "protocol": "http",
+      "timeout": 30,
+      "cors_origins": ["http://localhost", "http://127.0.0.1"]
+    },
+
+    "php_api": {
+      "base_url": "http://localhost",
+      "timeout": 15,
+      "max_retries": 3
+    },
+
+    "database": {
+      "host": "localhost",
+      "port": 3306,
+      "name": "snktime_db",
+      "user": "root",
+      "password": "",
+      "charset": "utf8mb4",
+      "pool_size": 10,
+      "timeout": 30
+    }
+  },
+
+  "biometric": {
+    "methods": {
+      "facial": {
+        "enabled": true,
+        "confidence_threshold": 0.85,
+        "max_faces": 1,
+        "detection_model": "hog",
+        "camera_resolution": "640x480"
+      },
+
+      "fingerprint": {
+        "enabled": true,
+        "confidence_threshold": 0.90,
+        "supported_formats": ["ansi", "iso"],
+        "max_attempts": 3,
+        "timeout": 10
+      },
+
+      "rfid": {
+        "enabled": true,
+        "confidence_threshold": 0.95,
+        "supported_protocols": ["mifare", "ntag"],
+        "read_timeout": 5,
+        "anti_collision": true
+      }
+    },
+
+    "verification": {
+      "max_attempts": 3,
+      "lockout_time": 300,
+      "require_multiple_methods": false,
+      "auto_register_attendance": true,
+      "duplicate_prevention_hours": 1
+    }
+  },
+
+  "attendance": {
+    "work_hours": {
+      "start": "08:00",
+      "end": "17:00",
+      "break_start": "12:00",
+      "break_end": "13:00",
+      "grace_period_minutes": 15
+    },
+
+    "rules": {
+      "late_threshold_minutes": 15,
+      "early_leave_threshold_minutes": 15,
+      "overtime_threshold_hours": 8,
+      "weekend_overtime_multiplier": 1.5,
+      "holiday_overtime_multiplier": 2.0
+    },
+
+    "notifications": {
+      "late_arrival": true,
+      "early_departure": true,
+      "overtime_warning": true,
+      "absent_notification": true
+    }
+  },
+
+  "security": {
+    "encryption": {
+      "algorithm": "AES-256-GCM",
+      "key_rotation_days": 90,
+      "backup_encryption": true
+    },
+
+    "authentication": {
+      "session_timeout": 3600,
+      "max_login_attempts": 5,
+      "password_policy": {
+        "min_length": 8,
+        "require_uppercase": true,
+        "require_lowercase": true,
+        "require_numbers": true,
+        "require_special_chars": true
+      }
+    },
+
+    "audit": {
+      "enabled": true,
+      "log_level": "INFO",
+      "retention_days": 365,
+      "sensitive_data_masking": true
+    }
+  },
+
+  "ui": {
+    "theme": "bootstrap5",
+    "language": "es",
+    "timezone": "America/Santiago",
+    "date_format": "DD/MM/YYYY",
+    "time_format": "HH:mm:ss",
+
+    "camera": {
+      "facing_mode": "user",
+      "width": 640,
+      "height": 480,
+      "frame_rate": 30
+    },
+
+    "notifications": {
+      "position": "top-right",
+      "timeout": 5000,
+      "show_progress": true
+    }
+  },
+
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": "logs/biometric_system.log",
+    "max_file_size": "10MB",
+    "backup_count": 5,
+
+    "handlers": {
+      "console": true,
+      "file": true,
+      "database": false
+    }
+  },
+
+  "performance": {
+    "cache": {
+      "enabled": true,
+      "ttl": 300,
+      "max_size": "100MB"
+    },
+
+    "optimization": {
+      "compress_responses": true,
+      "lazy_loading": true,
+      "batch_processing": true,
+      "connection_pooling": true
+    }
+  },
+
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention_days": 30,
+    "compress": true,
+    "encrypt": true,
+    "location": "backups/",
+
+    "includes": {
+      "database": true,
+      "biometric_data": true,
+      "logs": true,
+      "config": true
+    }
+  },
+
+  "monitoring": {
+    "enabled": true,
+    "metrics": {
+      "response_time": true,
+      "error_rate": true,
+      "throughput": true,
+      "memory_usage": true,
+      "cpu_usage": true
+    },
+
+    "alerts": {
+      "high_error_rate": 0.05,
+      "high_response_time": 5000,
+      "low_memory": 0.1,
+      "high_cpu": 0.9
+    }
+  },
+
+  "development": {
+    "debug_mode": true,
+    "mock_devices": true,
+    "test_data_generation": true,
+    "api_documentation": true,
+    "performance_profiling": false
+  }
+}

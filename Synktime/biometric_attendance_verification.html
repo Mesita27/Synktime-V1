@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación Biométrica de Asistencia - SNKTIME</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px;
+            padding: 30px;
+        }
+
+        .employee-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .employee-card.selected {
+            border-color: #007bff;
+            box-shadow: 0 8px 25px rgba(0,123,255,0.3);
+        }
+
+        .biometric-method {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .biometric-method:hover {
+            border-color: #007bff;
+            background: linear-gradient(45deg, #e3f2fd, #bbdefb);
+        }
+
+        .biometric-method.active {
+            border-color: #28a745;
+            background: linear-gradient(45deg, #d4edda, #c3e6cb);
+        }
+
+        .verification-result {
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .verification-success {
+            background: linear-gradient(45deg, #d4edda, #c3e6cb);
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .verification-error {
+            background: linear-gradient(45deg, #f8d7da, #f5c6cb);
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .verification-pending {
+            background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+            border: 2px solid #ffc107;
+            color: #856404;
+        }
+
+        .camera-container {
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .scanner-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            animation: scan 2s infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 50%; }
+            100% { top: 100%; }
+        }
+
+        .fingerprint-scanner {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 3px dashed #dee2e6;
+        }
+
+        .rfid-scanner {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 3px dashed #dee2e6;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin: 15px 0;
+        }
+
+        .verification-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-left: 4px solid #007bff;
+        }
+
+        .history-item.success {
+            border-left-color: #28a745;
+        }
+
+        .history-item.error {
+            border-left-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center mb-4">
+                        <i class="fas fa-fingerprint text-primary me-3"></i>
+                        Verificación Biométrica de Asistencia
+                        <small class="text-muted">SNKTIME</small>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <h5 class="text-center text-primary">
+                            <i class="fas fa-users me-2"></i>Empleados
+                        </h5>
+                        <h3 class="text-center" id="totalEmployees">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <h5 class="text-center text-success">
+                            <i class="fas fa-check-circle me-2"></i>Verificaciones
+                        </h5>
+                        <h3 class="text-center" id="totalVerifications">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <h5 class="text-center text-info">
+                            <i class="fas fa-clock me-2"></i>Hoy
+                        </h5>
+                        <h3 class="text-center" id="todayVerifications">0</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card">
+                        <h5 class="text-center text-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Pendientes
+                        </h5>
+                        <h3 class="text-center" id="pendingVerifications">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Lista de Empleados -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-users me-2"></i>Empleados con Datos Biométricos
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="searchEmployee" placeholder="Buscar empleado...">
+                                <button class="btn btn-outline-secondary" type="button" onclick="searchEmployees()">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div id="employeesList" class="list-group" style="max-height: 400px; overflow-y: auto;">
+                                <!-- Los empleados se cargarán aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de Verificación -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-user-check me-2"></i>Verificación de Asistencia
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Información del Empleado Seleccionado -->
+                            <div id="selectedEmployeeInfo" class="mb-4" style="display: none;">
+                                <div class="alert alert-info">
+                                    <h6><i class="fas fa-user me-2"></i>Empleado Seleccionado:</h6>
+                                    <div id="employeeDetails"></div>
+                                </div>
+                            </div>
+
+                            <!-- Métodos Biométricos Disponibles -->
+                            <div id="biometricMethods" style="display: none;">
+                                <h6 class="mb-3">Seleccione método de verificación:</h6>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="biometric-method" id="facialMethod" onclick="selectBiometricMethod('facial')" style="display: none;">
+                                            <div class="text-center">
+                                                <i class="fas fa-camera fa-2x text-primary mb-2"></i>
+                                                <h6>Reconocimiento Facial</h6>
+                                                <small class="text-muted">Verificación por rostro</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="biometric-method" id="fingerprintMethod" onclick="selectBiometricMethod('fingerprint')" style="display: none;">
+                                            <div class="text-center">
+                                                <i class="fas fa-fingerprint fa-2x text-warning mb-2"></i>
+                                                <h6>Huella Dactilar</h6>
+                                                <small class="text-muted">Verificación por huella</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="biometric-method" id="rfidMethod" onclick="selectBiometricMethod('rfid')" style="display: none;">
+                                            <div class="text-center">
+                                                <i class="fas fa-id-card fa-2x text-info mb-2"></i>
+                                                <h6>Tarjeta RFID</h6>
+                                                <small class="text-muted">Verificación por tarjeta</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Área de Verificación -->
+                            <div id="verificationArea" style="display: none;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div id="facialVerification" class="verification-section" style="display: none;">
+                                            <div class="camera-container mb-3">
+                                                <video id="faceVideo" autoplay playsinline style="width: 100%; border-radius: 15px;"></video>
+                                                <div class="scanner-animation" id="facialScannerAnimation" style="display: none;"></div>
+                                                <div class="camera-overlay">
+                                                    <i class="fas fa-camera fa-3x mb-3"></i>
+                                                    <h5>Posicione su rostro en el centro</h5>
+                                                    <p class="mb-0">La verificación comenzará automáticamente</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button class="btn btn-primary" id="startFacialVerification" onclick="startFacialVerification()">
+                                                    <i class="fas fa-play me-2"></i>Iniciar Verificación Facial
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div id="fingerprintVerification" class="verification-section" style="display: none;">
+                                            <div class="fingerprint-scanner">
+                                                <i class="fas fa-fingerprint fa-4x text-warning pulse-animation mb-3"></i>
+                                                <h5>Verificación de Huella Dactilar</h5>
+                                                <p>Coloque su dedo en el lector biométrico</p>
+                                                <div class="progress mt-3" style="height: 20px;">
+                                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                                                         id="fingerprintProgress" style="width: 0%"></div>
+                                                </div>
+                                                <button class="btn btn-warning mt-3" id="startFingerprintVerification" onclick="startFingerprintVerification()">
+                                                    <i class="fas fa-fingerprint me-2"></i>Iniciar Verificación
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div id="rfidVerification" class="verification-section" style="display: none;">
+                                            <div class="rfid-scanner">
+                                                <i class="fas fa-id-card fa-4x text-info pulse-animation mb-3"></i>
+                                                <h5>Verificación RFID</h5>
+                                                <p>Acerque su tarjeta al lector</p>
+                                                <div class="mt-3">
+                                                    <div class="spinner-border text-info" id="rfidSpinner" style="display: none;" role="status">
+                                                        <span class="visually-hidden">Cargando...</span>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-info mt-3" id="startRfidVerification" onclick="startRfidVerification()">
+                                                    <i class="fas fa-id-card me-2"></i>Iniciar Verificación
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de Verificación -->
+                            <div id="verificationResult" style="display: none;">
+                                <div class="verification-result" id="resultContent">
+                                    <!-- El resultado se mostrará aquí -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historial de Verificaciones -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-history me-2"></i>Historial de Verificaciones
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="verification-history" id="verificationHistory">
+                                <!-- El historial se cargará aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Incluir configuración del servicio Python -->
+    <?php require_once 'components/python_service_config.php'; ?>
+    <!-- Incluir timezone de Bogotá para fechas y horas -->
+    <script src="js/timezone-bogota.js"></script>
+    <script>
+        // Variables globales
+        let selectedEmployee = null;
+        let selectedBiometricMethod = null;
+        let faceStream = null;
+        let verificationHistory = [];
+        // Usar configuración dinámica del servicio Python
+        const PYTHON_SERVICE_URL = window.SYNKTIME?.pythonService?.baseUrl || '<?php echo $effectiveBaseUrl ?: "http://127.0.0.1:8000"; ?>';
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEmployees();
+            updateStats();
+        });
+
+        // Cargar empleados con datos biométricos
+        async function loadEmployees() {
+            try {
+                const response = await fetch('api/biometric/get-employees-verification.php');
+                const data = await response.json();
+
+                if (data.success) {
+                    displayEmployees(data.employees);
+                    document.getElementById('totalEmployees').textContent = data.employees.length;
+                } else {
+                    showNotification('Error al cargar empleados: ' + data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error loading employees:', error);
+                showNotification('Error al conectar con el servidor', 'error');
+            }
+        }
+
+        // Mostrar empleados en la lista
+        function displayEmployees(employees) {
+            const employeesList = document.getElementById('employeesList');
+            employeesList.innerHTML = '';
+
+            employees.forEach(employee => {
+                const employeeCard = document.createElement('div');
+                employeeCard.className = 'employee-card list-group-item list-group-item-action p-3 mb-2';
+                employeeCard.onclick = () => selectEmployee(employee);
+
+                const biometricMethods = [];
+                if (employee.facial_registered) biometricMethods.push('<i class="fas fa-camera text-primary"></i>');
+                if (employee.fingerprint_registered) biometricMethods.push('<i class="fas fa-fingerprint text-warning"></i>');
+                if (employee.rfid_registered) biometricMethods.push('<i class="fas fa-id-card text-info"></i>');
+
+                employeeCard.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">${employee.NOMBRE} ${employee.APELLIDO}</h6>
+                            <small class="text-muted">ID: ${employee.ID_EMPLEADO}</small>
+                        </div>
+                        <div class="biometric-icons">
+                            ${biometricMethods.join(' ')}
+                        </div>
+                    </div>
+                `;
+
+                employeesList.appendChild(employeeCard);
+            });
+        }
+
+        // Seleccionar empleado
+        function selectEmployee(employee) {
+            selectedEmployee = employee;
+
+            // Remover selección anterior
+            document.querySelectorAll('.employee-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Agregar selección al empleado actual
+            event.currentTarget.classList.add('selected');
+
+            // Mostrar información del empleado
+            showEmployeeInfo(employee);
+
+            // Mostrar métodos biométricos disponibles
+            showBiometricMethods(employee);
+        }
+
+        // Mostrar información del empleado seleccionado
+        function showEmployeeInfo(employee) {
+            const employeeDetails = document.getElementById('employeeDetails');
+            employeeDetails.innerHTML = `
+                <strong>${employee.NOMBRE} ${employee.APELLIDO}</strong><br>
+                <small class="text-muted">ID: ${employee.ID_EMPLEADO}</small><br>
+                <small class="text-muted">Estado: ${employee.ACTIVO === 'S' ? 'Activo' : 'Inactivo'}</small>
+            `;
+
+            document.getElementById('selectedEmployeeInfo').style.display = 'block';
+        }
+
+        // Mostrar métodos biométricos disponibles
+        function showBiometricMethods(employee) {
+            const biometricMethods = document.getElementById('biometricMethods');
+
+            // Mostrar/ocultar métodos según disponibilidad
+            document.getElementById('facialMethod').style.display = employee.facial_registered ? 'block' : 'none';
+            document.getElementById('fingerprintMethod').style.display = employee.fingerprint_registered ? 'block' : 'none';
+            document.getElementById('rfidMethod').style.display = employee.rfid_registered ? 'block' : 'none';
+
+            biometricMethods.style.display = 'block';
+            document.getElementById('verificationArea').style.display = 'none';
+            document.getElementById('verificationResult').style.display = 'none';
+        }
+
+        // Seleccionar método biométrico
+        function selectBiometricMethod(method) {
+            selectedBiometricMethod = method;
+
+            // Remover clase active de todos los métodos
+            document.querySelectorAll('.biometric-method').forEach(method => {
+                method.classList.remove('active');
+            });
+
+            // Agregar clase active al método seleccionado
+            event.currentTarget.classList.add('active');
+
+            // Mostrar área de verificación correspondiente
+            showVerificationArea(method);
+        }
+
+        // Mostrar área de verificación
+        function showVerificationArea(method) {
+            // Ocultar todas las secciones de verificación
+            document.querySelectorAll('.verification-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Mostrar la sección correspondiente
+            document.getElementById(method + 'Verification').style.display = 'block';
+            document.getElementById('verificationArea').style.display = 'block';
+            document.getElementById('verificationResult').style.display = 'none';
+        }
+
+        // Verificación Facial
+        async function startFacialVerification() {
+            try {
+                showVerificationResult('pending', 'Procesando verificación facial...');
+
+                // Capturar imagen del video
+                const video = document.getElementById('faceVideo');
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0);
+
+                const imageData = canvas.toDataURL('image/jpeg', 0.8);
+
+                // Enviar a API de verificación facial
+                const response = await fetch(PYTHON_SERVICE_URL + '/attendance/verify-facial', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        employee_id: selectedEmployee.ID_EMPLEADO,
+                        image_data: imageData,
+                        confidence_threshold: 0.6
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showVerificationResult('success', `✅ Verificación exitosa para ${selectedEmployee.NOMBRE} ${selectedEmployee.APELLIDO}`);
+                    recordAttendance(selectedEmployee.ID_EMPLEADO, 'facial', result.confidence);
+                } else {
+                    showVerificationResult('error', `❌ Verificación fallida: ${result.message}`);
+                }
+
+            } catch (error) {
+                console.error('Error en verificación facial:', error);
+                showVerificationResult('error', 'Error al procesar verificación facial');
+            }
+        }
+
+        // Verificación de Huella Dactilar
+        async function startFingerprintVerification() {
+            try {
+                showVerificationResult('pending', 'Procesando verificación de huella...');
+
+                // Simular proceso de captura de huella
+                document.getElementById('fingerprintProgress').style.width = '0%';
+                document.getElementById('startFingerprintVerification').disabled = true;
+
+                // Animar progreso
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 10;
+                    document.getElementById('fingerprintProgress').style.width = progress + '%';
+
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                        performFingerprintVerification();
+                    }
+                }, 200);
+
+            } catch (error) {
+                console.error('Error en verificación de huella:', error);
+                showVerificationResult('error', 'Error al procesar verificación de huella');
+            }
+        }
+
+        async function performFingerprintVerification() {
+            try {
+                // Enviar a API de verificación de huella
+                const response = await fetch(PYTHON_SERVICE_URL + '/attendance/verify-fingerprint', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        employee_id: selectedEmployee.ID_EMPLEADO,
+                        finger_type: 'right_index', // Tipo de dedo por defecto
+                        device_id: 'webcam_scanner', // ID del dispositivo
+                        confidence_threshold: 0.7
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showVerificationResult('success', `✅ Verificación de huella exitosa para ${selectedEmployee.NOMBRE} ${selectedEmployee.APELLIDO}`);
+                    recordAttendance(selectedEmployee.ID_EMPLEADO, 'fingerprint', result.confidence);
+                } else {
+                    showVerificationResult('error', `❌ Verificación de huella fallida: ${result.message}`);
+                }
+
+            } catch (error) {
+                console.error('Error en verificación de huella:', error);
+                showVerificationResult('error', 'Error al procesar verificación de huella');
+            } finally {
+                document.getElementById('startFingerprintVerification').disabled = false;
+            }
+        }
+
+        // Verificación RFID
+        async function startRfidVerification() {
+            try {
+                showVerificationResult('pending', 'Esperando tarjeta RFID...');
+
+                document.getElementById('rfidSpinner').style.display = 'block';
+                document.getElementById('startRfidVerification').disabled = true;
+
+                // Simular espera de tarjeta RFID
+                setTimeout(async () => {
+                    await performRfidVerification();
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error en verificación RFID:', error);
+                showVerificationResult('error', 'Error al procesar verificación RFID');
+            }
+        }
+
+        async function performRfidVerification() {
+            try {
+                // Enviar a API de verificación RFID
+                const response = await fetch(PYTHON_SERVICE_URL + '/attendance/verify-rfid', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        uid: 'simulated_rfid_data', // En producción, esto vendría del dispositivo RFID
+                        device_id: 'rfid_reader_001' // ID del dispositivo RFID
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showVerificationResult('success', `✅ Verificación RFID exitosa para ${selectedEmployee.NOMBRE} ${selectedEmployee.APELLIDO}`);
+                    recordAttendance(selectedEmployee.ID_EMPLEADO, 'rfid', result.confidence);
+                } else {
+                    showVerificationResult('error', `❌ Verificación RFID fallida: ${result.message}`);
+                }
+
+            } catch (error) {
+                console.error('Error en verificación RFID:', error);
+                showVerificationResult('error', 'Error al procesar verificación RFID');
+            } finally {
+                document.getElementById('rfidSpinner').style.display = 'none';
+                document.getElementById('startRfidVerification').disabled = false;
+            }
+        }
+
+        // Mostrar resultado de verificación
+        function showVerificationResult(type, message) {
+            const resultContent = document.getElementById('resultContent');
+            const verificationResult = document.getElementById('verificationResult');
+
+            resultContent.className = 'verification-result verification-' + type;
+            resultContent.innerHTML = `
+                <div class="text-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle fa-3x text-success' :
+                                   type === 'error' ? 'fa-times-circle fa-3x text-danger' :
+                                   'fa-clock fa-3x text-warning'} mb-3"></i>
+                    <p class="mb-0">${message}</p>
+                </div>
+            `;
+
+            verificationResult.style.display = 'block';
+
+            // Agregar al historial
+            addToHistory(type, message);
+        }
+
+        // Registrar asistencia
+        async function recordAttendance(employeeId, method, confidence) {
+            try {
+                const response = await fetch('api/attendance/record.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        employee_id: employeeId,
+                        verification_method: method,
+                        confidence: confidence,
+                        timestamp: window.Bogota.getISOString() // ISO con zona horaria de Bogotá
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    updateStats();
+                    showNotification('Asistencia registrada exitosamente', 'success');
+                } else {
+                    showNotification('Error al registrar asistencia: ' + result.message, 'error');
+                }
+
+            } catch (error) {
+                console.error('Error recording attendance:', error);
+                showNotification('Error al registrar asistencia', 'error');
+            }
+        }
+
+        // Agregar al historial
+        function addToHistory(type, message) {
+            const historyItem = {
+                type: type,
+                message: message,
+                timestamp: window.Bogota.getBogotaDate(), // Fecha en zona horaria de Bogotá
+                employee: selectedEmployee ? `${selectedEmployee.NOMBRE} ${selectedEmployee.APELLIDO}` : 'N/A'
+            };
+
+            verificationHistory.unshift(historyItem);
+
+            // Mantener solo las últimas 20 entradas
+            if (verificationHistory.length > 20) {
+                verificationHistory = verificationHistory.slice(0, 20);
+            }
+
+            updateHistoryDisplay();
+        }
+
+        // Actualizar visualización del historial
+        function updateHistoryDisplay() {
+            const historyContainer = document.getElementById('verificationHistory');
+            historyContainer.innerHTML = '';
+
+            verificationHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = `history-item ${item.type}`;
+                historyItem.innerHTML = `
+                    <small class="text-muted">${item.timestamp.toLocaleString()}</small><br>
+                    <strong>${item.employee}</strong>: ${item.message}
+                `;
+                historyContainer.appendChild(historyItem);
+            });
+        }
+
+        // Actualizar estadísticas
+        async function updateStats() {
+            try {
+                const response = await fetch('api/attendance/stats.php');
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('totalVerifications').textContent = data.total_verifications || 0;
+                    document.getElementById('todayVerifications').textContent = data.today_verifications || 0;
+                    document.getElementById('pendingVerifications').textContent = data.pending_verifications || 0;
+                }
+            } catch (error) {
+                console.error('Error updating stats:', error);
+            }
+        }
+
+        // Buscar empleados
+        function searchEmployees() {
+            const searchTerm = document.getElementById('searchEmployee').value.toLowerCase();
+
+            document.querySelectorAll('.employee-card').forEach(card => {
+                const employeeName = card.querySelector('h6').textContent.toLowerCase();
+                const employeeId = card.querySelector('small').textContent.toLowerCase();
+
+                if (employeeName.includes(searchTerm) || employeeId.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Inicializar cámara facial
+        async function initializeCamera() {
+            try {
+                const video = document.getElementById('faceVideo');
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 640, height: 480, facingMode: 'user' }
+                });
+
+                video.srcObject = stream;
+                faceStream = stream;
+
+                // Ocultar overlay después de 2 segundos
+                setTimeout(() => {
+                    document.querySelector('.camera-overlay').style.display = 'none';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error initializing camera:', error);
+                showNotification('Error al acceder a la cámara', 'error');
+            }
+        }
+
+        // Inicializar cuando se selecciona método facial
+        document.getElementById('facialMethod').addEventListener('click', function() {
+            if (!faceStream) {
+                initializeCamera();
+            }
+        });
+
+        // Función de notificaciones
+        function showNotification(message, type = 'info') {
+            // Crear notificación
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                <strong>${type === 'error' ? 'Error:' : type === 'success' ? 'Éxito:' : 'Info:'}</strong> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto-remover después de 5 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Cargar empleados al inicio
+        loadEmployees();
+    </script>
+</body>
+</html>

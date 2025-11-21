@@ -1,0 +1,163 @@
+/* Estilos para el modal de enrolamiento biométrico mejorado */
+
+/* Corregir z-index del modal para que esté por encima del backdrop */
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+
+.modal {
+    z-index: 1055 !important;
+}
+
+/* Modal más ancho */
+.modal-dialog {
+    max-width: 95vw !important;
+    width: 95vw !important;
+}
+
+.modal-content {
+     max-width: 98vw;
+    width: 98vw;
+    margin: 0.5rem auto;
+}
+
+/* Estilos para el progreso de capturas faciales */
+#facial-progress-container {
+    gap: 0.5rem;
+}
+
+.capture-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+.capture-item.completed {
+    background-color: #d1ecf1;
+    border-color: #17a2b8;
+}
+
+.capture-item.pending {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+.capture-item i {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.capture-item span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.capture-item.completed span {
+    color: #17a2b8;
+}
+
+/* Estilos para la cámara y detección */
+.camera-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+#faceVideo {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.375rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.detection-status {
+    margin-top: 1rem;
+}
+
+.detection-status .alert {
+    border-radius: 0.375rem;
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Estilos para instrucciones */
+.capture-info {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.capture-info ul li {
+    margin-bottom: 0.5rem;
+}
+
+.capture-info .alert {
+    border-radius: 0.375rem;
+    border: none;
+}
+
+/* Estilos para botones de control */
+.camera-controls {
+    gap: 0.5rem;
+}
+
+.camera-controls .btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.camera-controls .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .modal-dialog {
+        max-width: 98vw !important;
+        width: 98vw !important;
+        margin: 0.5rem;
+    }
+
+    .modal-content {
+         max-width: 98vw; 
+    width: 98vw; 
+    margin: 0.5rem auto;
+    }
+
+    #facial-progress-container {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .capture-item {
+        min-width: 60px;
+        padding: 0.25rem;
+    }
+
+    .capture-item i {
+        font-size: 1.25rem;
+    }
+
+    .capture-item span {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .camera-controls {
+        flex-direction: column;
+    }
+
+    .camera-controls .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

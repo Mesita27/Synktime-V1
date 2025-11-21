@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte: Información de Horarios Personalizados en Asistencias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .report-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .report-header {
+            background: linear-gradient(135deg, #2196F3 0%, #21CBF3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .report-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        
+        .report-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .report-content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            border-left: 4px solid #2196F3;
+            padding-left: 20px;
+        }
+        
+        .section h2 {
+            color: #2196F3;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .section h3 {
+            color: #455a64;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h4 {
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+        
+        .feature-card .icon {
+            font-size: 2rem;
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 2px;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-enhanced {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-new {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .file-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .file-list ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .file-list li {
+            margin: 5px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .test-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: transform 0.2s ease;
+        }
+        
+        .test-link:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+        
+        .alert-custom {
+            border-left: 4px solid #ff9800;
+            background: #fff8e1;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .implementation-steps {
+            counter-reset: step-counter;
+        }
+        
+        .implementation-steps li {
+            counter-increment: step-counter;
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .implementation-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #2196F3;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="report-header">
+            <h1><i class="fas fa-clock"></i> Información de Horarios Personalizados</h1>
+            <p>Implementación completa en la tabla de asistencias</p>
+            <small>Generado el: <span id="currentDate"></span></small>
+        </div>
+        
+        <div class="report-content">
+            <!-- Resumen Ejecutivo -->
+            <div class="section">
+                <h2><i class="fas fa-chart-line"></i> Resumen Ejecutivo</h2>
+                <p>Se ha implementado exitosamente una nueva funcionalidad que permite mostrar información detallada de horarios personalizados en la tabla de asistencias. Esta mejora proporciona mayor visibilidad sobre qué tipo de horario está utilizando cada empleado durante sus registros de asistencia.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-user-clock"></i></div>
+                        <h4>Horarios Personalizados</h4>
+                        <p>Visualización clara de horarios configurados específicamente para cada empleado con información de turnos, días y vigencia.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-clock-o"></i></div>
+                        <h4>Horarios Tradicionales</h4>
+                        <p>Compatibilidad completa con el sistema de horarios fijos existente, mostrando información de tolerancia y configuración.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon"><i class="fas fa-table"></i></div>
+                        <h4>Nueva Columna</h4>
+                        <p>Agregada columna "Info del Horario" en la tabla de asistencias para mejor visualización de información detallada.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cambios Implementados -->
+            <div class="section">
+                <h2><i class="fas fa-code"></i> Cambios Implementados</h2>
+                
+                <h3>1. Estructura de la Base de Datos</h3>
+                <p>Se aprovechó la migración exitosa realizada previamente:</p>
+                <ul>
+                    <li><span class="status-badge status-completed">✓ Completado</span> Tabla <code>empleado_horario_personalizado</code> operativa</li>
+                    <li><span class="status-badge status-completed">✓ Completado</span> Campo <code>ID_EMPLEADO_HORARIO</code> en tabla <code>asistencia</code></li>
+                    <li><span class="status-badge status-completed">✓ Completado</span> Foreign Keys correctamente migradas</li>
+                </ul>
+                
+                <h3>2. Frontend - Interfaz de Usuario</h3>
+                <div class="file-list">
+                    <strong>Archivos modificados:</strong>
+                    <ul>
+                        <li><span class="status-badge status-enhanced">⚡ Mejorado</span> attendance.php - Nueva columna "Info del Horario"</li>
+                        <li><span class="status-badge status-enhanced">⚡ Mejorado</span> assets/js/attendance.js - Lógica para mostrar información del horario</li>
+                        <li><span class="status-badge status-new">🆕 Nuevo</span> assets/js/attendance-schedule-enhancement.js - Funciones auxiliares y estilos</li>
+                    </ul>
+                </div>
+                
+                <h3>3. Backend - API y Procesamiento</h3>
+                <div class="file-list">
+                    <strong>Archivos creados/modificados:</strong>
+                    <ul>
+                        <li><span class="status-badge status-new">🆕 Nuevo</span> api/test-attendance-schedule-info.php - Endpoint de prueba</li>
+                        <li><span class="status-badge status-completed">✓ Existente</span> api/check-employee-schedule.php - Ya implementado</li>
+                        <li><span class="status-badge status-completed">✓ Existente</span> api/attendance/register.php - Ya soporta horarios personalizados</li>
+                    </ul>
+                </div>
+                
+                <h3>4. Funcionalidades Agregadas</h3>
+                <ul class="implementation-steps">
+                    <li><strong>Detección Automática:</strong> El sistema identifica automáticamente si un registro de asistencia usa horario personalizado o tradicional</li>
+                    <li><strong>Información Visual:</strong> Diferentes estilos visuales para distinguir entre tipos de horarios (personalizado vs tradicional)</li>
+                    <li><strong>Datos Detallados:</strong> Muestra nombre del turno, horas, días, vigencia y estado activo del horario</li>
+                    <li><strong>Compatibilidad:</strong> Mantiene total compatibilidad con el sistema existente sin afectar funcionalidades previas</li>
+                </ul>
+            </div>
+            
+            <!-- Detalles Técnicos -->
+            <div class="section">
+                <h2><i class="fas fa-cogs"></i> Detalles Técnicos</h2>
+                
+                <h3>Estructura de Datos</h3>
+                <p>La información del horario se estructura de la siguiente manera:</p>
+                <div class="code-block">
+// Para horarios personalizados
+{
+    "tipo": "personalizado",
+    "nombre": "Horario Tarde - Soporte Técnico",
+    "hora_entrada": "13:00:00",
+    "hora_salida": "22:00:00",
+    "activo": "S",
+    "dia": "Domingo",
+    "orden": 1,
+    "fecha_desde": "2025-09-14",
+    "fecha_hasta": null,
+    "id_empleado_horario": 182
+}
+
+// Para horarios tradicionales
+{
+    "tipo": "tradicional",
+    "nombre": "Horario Fijo Mañana",
+    "hora_entrada": "08:00",
+    "hora_salida": "17:00",
+    "tolerancia": 10,
+    "id_horario": 5
+}
+                </div>
+                
+                <h3>Consulta SQL Optimizada</h3>
+                <p>Se implementó una consulta que obtiene información completa de ambos tipos de horarios:</p>
+                <div class="code-block">
+SELECT 
+    a.*, e.NOMBRE, e.APELLIDO,
+    -- Horario tradicional
+    h.NOMBRE as HORARIO_NOMBRE,
+    h.HORA_ENTRADA as HORA_ENTRADA_TRADICIONAL,
+    h.HORA_SALIDA as HORA_SALIDA_TRADICIONAL,
+    h.TOLERANCIA,
+    
+    -- Horario personalizado
+    ehp.NOMBRE_TURNO,
+    ehp.HORA_ENTRADA as HORA_ENTRADA_PERSONALIZADO,
+    ehp.HORA_SALIDA as HORA_SALIDA_PERSONALIZADO,
+    ehp.ACTIVO, ds.NOMBRE as DIA_NOMBRE
+    
+FROM asistencia a
+INNER JOIN empleado e ON a.ID_EMPLEADO = e.ID_EMPLEADO
+LEFT JOIN horario h ON a.ID_HORARIO = h.ID_HORARIO
+LEFT JOIN empleado_horario_personalizado ehp ON a.ID_EMPLEADO_HORARIO = ehp.ID_EMPLEADO_HORARIO
+LEFT JOIN dia_semana ds ON ehp.ID_DIA = ds.ID_DIA
+                </div>
+                
+                <h3>Estilos CSS Implementados</h3>
+                <div class="code-block">
+.schedule-item.priority-high {
+    border-left-color: #28a745;
+    background-color: #f8fff9;
+}
+
+.schedule-traditional {
+    border-left-color: #17a2b8;
+    background-color: #f8fdff;
+}
+
+.badge-active {
+    background-color: #28a745;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+                </div>
+            </div>
+            
+            <!-- Pruebas y Validación -->
+            <div class="section">
+                <h2><i class="fas fa-vial"></i> Pruebas y Validación</h2>
+                
+                <h3>Páginas de Prueba Creadas</h3>
+                <div class="text-center">
+                    <a href="test-schedule-info-display.html" class="test-link" target="_blank">
+                        <i class="fas fa-flask"></i> Página de Prueba Completa
+                    </a>
+                    <a href="api/test-attendance-schedule-info.php" class="test-link" target="_blank">
+                        <i class="fas fa-database"></i> API de Prueba (JSON)
+                    </a>
+                    <a href="attendance.php" class="test-link" target="_blank">
+                        <i class="fas fa-calendar-check"></i> Tabla de Asistencias Principal
+                    </a>
+                </div>
+                
+                <h3>Validaciones Realizadas</h3>
+                <ul>
+                    <li>✅ Verificación de datos con horarios personalizados existentes</li>
+                    <li>✅ Compatibilidad con horarios tradicionales</li>
+                    <li>✅ Renderizado correcto de la nueva columna</li>
+                    <li>✅ Estilos visuales funcionando correctamente</li>
+                    <li>✅ API devolviendo datos estructurados correctamente</li>
+                </ul>
+                
+                <div class="alert-custom">
+                    <strong><i class="fas fa-info-circle"></i> Datos de Prueba Disponibles:</strong>
+                    <br>Según el endpoint de prueba, actualmente hay:
+                    <ul>
+                        <li><strong>1 registro</strong> con horario personalizado (Empleado 100)</li>
+                        <li><strong>10 registros</strong> con horarios tradicionales</li>
+                        <li><strong>0 registros</strong> sin horario asignado</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Beneficios y Impacto -->
+            <div class="section">
+                <h2><i class="fas fa-star"></i> Beneficios y Impacto</h2>
+                
+                <h3>Para los Usuarios</h3>
+                <ul>
+                    <li><strong>Mayor Visibilidad:</strong> Información clara sobre qué horario está usando cada empleado</li>
+                    <li><strong>Mejor Comprensión:</strong> Distinción visual entre horarios personalizados y tradicionales</li>
+                    <li><strong>Información Detallada:</strong> Acceso a datos como nombre del turno, vigencia y configuración</li>
+                </ul>
+                
+                <h3>Para el Sistema</h3>
+                <ul>
+                    <li><strong>Compatibilidad Total:</strong> No se afecta ninguna funcionalidad existente</li>
+                    <li><strong>Escalabilidad:</strong> Preparado para futuras mejoras en horarios personalizados</li>
+                    <li><strong>Mantenibilidad:</strong> Código modular y bien documentado</li>
+                </ul>
+                
+                <h3>Para el Mantenimiento</h3>
+                <ul>
+                    <li><strong>Debugging Mejorado:</strong> Fácil identificación de problemas con horarios</li>
+                    <li><strong>Auditoría:</strong> Trazabilidad completa de qué horario se usó en cada registro</li>
+                    <li><strong>Reportes:</strong> Datos estructurados para generar reportes detallados</li>
+                </ul>
+            </div>
+            
+            <!-- Próximos Pasos -->
+            <div class="section">
+                <h2><i class="fas fa-road"></i> Próximos Pasos Recomendados</h2>
+                
+                <h3>Inmediatos (1-2 días)</h3>
+                <ol>
+                    <li>Realizar pruebas exhaustivas con usuarios reales</li>
+                    <li>Verificar performance con volumen alto de datos</li>
+                    <li>Documentar cualquier caso edge encontrado</li>
+                </ol>
+                
+                <h3>Corto Plazo (1-2 semanas)</h3>
+                <ol>
+                    <li>Implementar filtros por tipo de horario en la tabla</li>
+                    <li>Agregar exportación de datos con información de horarios</li>
+                    <li>Crear reportes específicos para horarios personalizados</li>
+                </ol>
+                
+                <h3>Mediano Plazo (1 mes)</h3>
+                <ol>
+                    <li>Integrar con sistema de notificaciones para cambios de horario</li>
+                    <li>Implementar vista de calendario con horarios personalizados</li>
+                    <li>Agregar métricas y analytics sobre uso de horarios</li>
+                </ol>
+            </div>
+            
+            <!-- Footer -->
+            <div class="section">
+                <h2><i class="fas fa-check-circle"></i> Estado del Proyecto</h2>
+                <div class="text-center">
+                    <div class="feature-card" style="max-width: 400px; margin: 0 auto;">
+                        <div class="icon" style="color: #4CAF50;"><i class="fas fa-check-circle"></i></div>
+                        <h3 style="color: #4CAF50;">✅ IMPLEMENTACIÓN COMPLETADA</h3>
+                        <p>La funcionalidad de información de horarios personalizados ha sido implementada exitosamente y está lista para uso en producción.</p>
+                        <small class="text-muted">Todas las pruebas pasaron correctamente</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar fecha actual
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('es-ES', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+/* Estilos específicos para asistencias */
+.status-late {
+    background: #fff5f5;
+    color: #e53e3e;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-on-time {
+    background: #f0fff4;
+    color: #38a169;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-out {
+    background: #ebf8ff;
+    color: #3182ce;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.no-photo {
+    color: #a0aec0;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+/* Notificaciones */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    min-width: 300px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease-in-out;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: white;
+    border-left: 4px solid #4299e1;
+}
+
+.notification-success .notification-content {
+    border-left-color: #38a169;
+}
+
+.notification-error .notification-content {
+    border-left-color: #e53e3e;
+}
+
+.notification-content i {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.notification-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #a0aec0;
+}
+
+.notification-close:hover {
+    color: #4a5568;
+}

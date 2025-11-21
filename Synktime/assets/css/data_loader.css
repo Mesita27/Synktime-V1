@@ -1,0 +1,173 @@
+/* Estilos para el DataLoader */
+
+/* Loader */
+.synktime-loader {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.synktime-loader .spinner {
+  font-size: 24px;
+  color: #3498db;
+  margin-bottom: 10px;
+}
+
+.synktime-loader p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Selector de registros por página */
+.rows-per-page-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+.rows-select-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 5px 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.rows-select-wrapper label {
+  margin-right: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.rows-per-page-select {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 8px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.rows-per-page-select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Paginación */
+.synktime-pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.pagination-info {
+  color: #666;
+  font-size: 14px;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-pagination {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+  font-size: 13px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-pagination.active {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  background-color: #f1f1f1;
+  border-color: #ccc;
+}
+
+.btn-pagination.active:hover {
+  background-color: #2980b9;
+}
+
+.btn-pagination:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-pagination.prev,
+.btn-pagination.next {
+  min-width: 80px;
+}
+
+.btn-pagination.prev i,
+.btn-pagination.next i {
+  font-size: 10px;
+}
+
+.btn-pagination.prev i {
+  margin-right: 5px;
+}
+
+.btn-pagination.next i {
+  margin-left: 5px;
+}
+
+/* Mensajes */
+.empty-message,
+.error-message {
+  text-align: center;
+  padding: 30px;
+  font-style: italic;
+}
+
+.empty-message {
+  color: #666;
+}
+
+.error-message {
+  color: #e74c3c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pagination {
+    width: 100%;
+  }
+  
+  .pagination-buttons {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  
+  .rows-per-page-container {
+    justify-content: center;
+  }
+}

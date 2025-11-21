@@ -1,0 +1,992 @@
+/**
+ * CSS PARA ENROLAMIENTO BIOMÉTRICO
+ * Estilos específicos para la página de enrolamiento
+ */
+
+/* Contenedor principal */
+.main-content {
+    margin-left: 0px;
+    padding: 20px;
+    min-height: 100vh;
+    background: #ffffff;
+}
+
+/* Modal de enrolamiento biométrico */
+#biometricEnrollmentModal {
+    z-index: 1050;
+}
+
+/* Asegurar que el backdrop no bloquee la interacción */
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+/* Centrar el modal correctamente */
+.modal-dialog-centered {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: calc(100% - 3.5rem) !important;
+    margin: 0 auto !important;
+}
+
+#biometricEnrollmentModal .modal-dialog {
+    max-width: 95% !important; /* AMPLIADO para pantallas 1920x1080 */
+    width: 95% !important;
+    margin: 0.25rem auto !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: auto !important;
+    height: auto !important; /* Altura automática según contenido */
+}
+
+/* Limitar altura máxima del contenido */
+#biometricEnrollmentModal .modal-body {
+    max-height: 75vh !important; /* AMPLIADO para pantallas 1920x1080 */
+    overflow-y: auto !important;
+    padding: 15px 25px !important; /* Mejor aprovechamiento del espacio horizontal */
+}
+
+#biometricEnrollmentModal .modal-content {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    background-color: #ffffff;
+}
+
+#biometricEnrollmentModal .row {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    justify-content: center;
+}
+
+/* Hero section */
+.enrollment-hero {
+    background: linear-gradient(135deg, #4361ee 0%, #3f51b5 100%);
+    color: white;
+    padding: 40px 0;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.enrollment-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.enrollment-hero .lead {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Estadísticas */
+.enrollment-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #4361ee;
+}
+
+.stat-card p {
+    color: #495057;
+    margin: 0;
+}
+
+/* Filtros */
+.filter-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.filter-card h5 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.filter-card .form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.filter-card .input-group-text {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+}
+
+.filter-card .form-control,
+.filter-card .form-select {
+    border: 1px solid #dee2e6;
+    height: 40px;
+    font-size: 0.9rem;
+}
+
+/* Estilos para el modal de enrolamiento */
+.modal-dialog.modal-xl {
+    max-width: 95% !important; /* AMPLIADO para pantallas Full HD */
+    width: 95% !important;
+}
+
+/* Optimización específica para pantallas Full HD y superiores */
+@media (min-width: 1920px) {
+    #biometricEnrollmentModal .modal-dialog {
+        max-width: 92% !important; /* MUY AMPLIADO para Full HD */
+        width: 92% !important;
+    }
+    
+    #biometricEnrollmentModal .modal-body {
+        max-height: 80vh !important; /* Altura ampliada en pantallas grandes */
+        padding: 20px 35px !important; /* Más espacio horizontal */
+    }
+    
+    .modal-xl {
+        max-width: 92% !important;
+        width: 92% !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .modal-dialog.modal-xl {
+        max-width: 95%;
+        margin: 0.5rem auto;
+    }
+    
+    #biometricEnrollmentModal .modal-body {
+        max-height: 75vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-dialog.modal-xl {
+        max-width: 98%;
+        margin: 0.25rem auto;
+    }
+    
+    .camera-container {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .camera-container video,
+    .camera-container canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    #biometricEnrollmentModal .modal-body {
+        max-height: 80vh;
+        padding: 0.75rem;
+    }
+}
+
+/* Mejorar proporciones de la cámara */
+.camera-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 4/3; /* Proporción ancho/alto de la cámara */
+    overflow: hidden;
+}
+
+/* Botones con los colores del sistema */
+#biometricEnrollmentModal .btn-primary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+}
+
+#biometricEnrollmentModal .btn-primary:hover {
+    background-color: #3a56d4;
+    border-color: #3a56d4;
+}
+
+#biometricEnrollmentModal .btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+#biometricEnrollmentModal .btn-success:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+#biometricEnrollmentModal .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+#biometricEnrollmentModal .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+
+/* Componentes de captura biométrica */
+.camera-container {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 640px;
+    border: 1px solid #dee2e6;
+}
+
+.camera-container video {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.camera-container canvas {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.fingerprint-scanner {
+    text-align: center;
+    padding: 2rem;
+}
+
+.scanner-area {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 15px;
+    padding: 3rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.scanner-icon {
+    font-size: 4rem;
+    color: #4361ee;
+    margin-bottom: 1rem;
+}
+
+.scanner-text {
+    color: #6c757d;
+    margin: 0;
+}
+
+.scanner-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(67, 97, 238, 0.3) 50%, transparent 70%);
+    opacity: 0;
+    animation: scan 2s infinite;
+}
+
+@keyframes scan {
+    0% { transform: translateX(-100%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateX(100%); opacity: 0; }
+}
+
+.scanner-area.active .scanner-animation {
+    opacity: 1;
+}
+
+.finger-options .form-check {
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.employee-info {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.capture-info, .capture-progress, .finger-selection, .fingerprint-progress {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.capture-info ul li {
+    margin-bottom: 0.25rem;
+    text-align: left;
+}
+
+/* Estilos para tabs */
+#biometricEnrollmentModal .nav-tabs .nav-link {
+    color: #495057;
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+    padding: 0.75rem 1rem;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+#biometricEnrollmentModal .nav-tabs .nav-link.active {
+    color: #4361ee;
+    background-color: #ffffff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+#biometricEnrollmentModal .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+#biometricEnrollmentModal .nav-tabs .nav-link.active {
+    color: #4361ee;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+#biometricEnrollmentModal .nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+}
+
+/* Corregir desplazamiento y overflow */
+#biometricEnrollmentModal .modal-body {
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+
+/* Hacer que los botones dentro del modal tengan el estilo del sistema */
+#biometricEnrollmentModal .btn {
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+}
+
+#biometricEnrollmentModal .modal-footer .btn {
+    min-width: 120px;
+}
+
+#biometricEnrollmentModal .progress-bar {
+    background-color: #4361ee;
+}
+
+/* Ajustes para hacer el modal más accesible */
+#biometricEnrollmentModal {
+    padding-right: 0 !important;
+    z-index: 1050;
+}
+
+/* Solución para el backdrop que bloquea la interacción */
+.modal-backdrop.show {
+    opacity: 0.5;
+    z-index: 1040;
+    pointer-events: none; /* Importante: permite interactuar a través del backdrop */
+}
+
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0 !important;
+}
+
+/* Ajuste para los estados de enrolamiento */
+#enrollment-status .badge {
+    padding: 6px 10px;
+    font-size: 0.85em;
+}
+
+/* Aumentar la altura máxima disponible para el modal en pantallas más grandes */
+@media (min-height: 800px) {
+    #biometricEnrollmentModal .modal-body {
+        max-height: 85vh;
+    }
+}
+
+/* Controles de cámara */
+.camera-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.camera-controls .btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    #biometricEnrollmentModal .modal-dialog {
+        max-width: 95%;
+        margin: 0.5rem auto;
+    }
+
+    #biometricEnrollmentModal .modal-body {
+        padding: 1rem;
+    }
+    
+    .camera-controls {
+        flex-direction: column;
+    }
+    
+    .camera-controls .btn {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .camera-container {
+        margin-bottom: 1rem;
+    }
+
+    /* Hacer que las columnas ocupen todo el ancho en móviles */
+    #biometricEnrollmentModal .col-md-8, 
+    #biometricEnrollmentModal .col-md-4 {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 576px) {
+    #biometricEnrollmentModal .modal-dialog {
+        max-width: 98%;
+        margin: 0.25rem auto;
+    }
+
+    #biometricEnrollmentModal .modal-body {
+        padding: 0.5rem;
+    }
+
+    .employee-info {
+        padding: 0.5rem;
+    }
+
+    #biometricEnrollmentModal .nav-tabs .nav-link {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+}
+.filter-card .form-select {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.filter-card .form-control:focus,
+.filter-card .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Tarjetas de empleados */
+.employee-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    overflow: hidden;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-color: #667eea;
+}
+
+.employee-card.selected {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+}
+
+.employee-card .card-body {
+    padding: 25px;
+    position: relative;
+}
+
+.biometric-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.employee-avatar {
+    margin-bottom: 15px;
+}
+
+.employee-avatar i {
+    color: #667eea;
+}
+
+.employee-card .card-title {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.employee-card .card-text {
+    line-height: 1.4;
+}
+
+/* Vista de tabla */
+.table-responsive {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background: #667eea;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 15px;
+}
+
+.table td {
+    padding: 15px;
+    vertical-align: middle;
+    border-top: 1px solid #e9ecef;
+}
+
+.table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* Modal de enrolamiento */
+.modal-xl {
+    max-width: 96% !important; /* Optimizado para pantallas Full HD */
+    width: 96% !important;
+}
+
+/* Modal de detalles de empleado - Optimizado para 1920x1080 */
+#employeeDetailsModal .modal-dialog {
+    max-width: 85%; /* Más ancho que el estándar modal-lg */
+    width: 85%;
+}
+
+#employeeDetailsModal .modal-body {
+    max-height: 60vh; /* Altura controlada */
+    overflow-y: auto;
+    padding: 20px 30px;
+}
+
+/* Para pantallas Full HD y superiores */
+@media (min-width: 1920px) {
+    #employeeDetailsModal .modal-dialog {
+        max-width: 70%; /* Aprovecha el espacio horizontal */
+        width: 70%;
+    }
+    
+    #employeeDetailsModal .modal-body {
+        max-height: 50vh; /* Más compacto verticalmente */
+        padding: 25px 40px;
+    }
+}
+
+.modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 30px;
+    border-bottom: none;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px 20px;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.card-header h6 {
+    margin: 0;
+    font-weight: 600;
+    color: #495057;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Tipo de enrolamiento */
+.btn-group .btn-check:checked + .btn {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
+.btn-outline-primary {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.btn-outline-primary:hover {
+    background: #667eea;
+    border-color: #667eea;
+}
+
+/* Área de cámara */
+.camera-container {
+    position: relative;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.camera-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Progreso de enrolamiento */
+.progress {
+    height: 25px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #e9ecef;
+}
+
+.progress-bar {
+    border-radius: 12px;
+    transition: width 0.6s ease;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Instrucciones */
+.alert {
+    border-radius: 12px;
+    border: none;
+    padding: 15px 20px;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    color: #0c5460;
+}
+
+/* Área de huella digital */
+.fingerprint-scanner {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Progreso general */
+.enrollment-progress {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin-top: 25px;
+}
+
+.enrollment-progress h6 {
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.enrollment-progress .d-flex {
+    padding: 10px 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.enrollment-progress .d-flex:last-child {
+    border-bottom: none;
+}
+
+/* Badges */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%) !important;
+}
+
+.bg-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%) !important;
+}
+
+.bg-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%) !important;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Botones */
+.btn {
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    
+    .enrollment-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .enrollment-stats {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .modal-xl {
+        max-width: 96% !important; /* Mantener consistencia con la optimización */
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .filter-card {
+        padding: 20px;
+    }
+}
+
+/* Animaciones */
+.employee-card,
+.stat-card,
+.filter-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading states */
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ========================================================================
+   ESTILOS DE MÁXIMA PRIORIDAD PARA MODALES OPTIMIZADOS 1920x1080
+   ======================================================================== */
+
+/* Modal de enrolamiento biométrico - Forzar aplicación */
+#biometricEnrollmentModal .modal-dialog,
+#biometricEnrollmentModal .modal-dialog.modal-xl {
+    max-width: 98% !important;
+    width: 98% !important;
+    margin: 0.5rem auto !important;
+}
+
+#biometricEnrollmentModal .modal-body {
+    max-height: 55vh !important;
+    overflow-y: auto !important;
+    padding: 20px 30px !important;
+}
+
+/* Modal de detalles de empleado - Forzar aplicación */
+#employeeDetailsModal .modal-dialog,
+#employeeDetailsModal .modal-dialog.modal-lg {
+    max-width: 85% !important;
+    width: 85% !important;
+}
+
+#employeeDetailsModal .modal-body {
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    padding: 20px 30px !important;
+}
+
+/* Clases genéricas para cualquier modal-xl */
+.modal-dialog.modal-xl {
+    max-width: 96% !important;
+    width: 96% !important;
+}
+
+/* Para pantallas Full HD específicamente */
+@media screen and (min-width: 1920px) {
+    #biometricEnrollmentModal .modal-dialog,
+    #biometricEnrollmentModal .modal-dialog.modal-xl {
+        max-width: 85% !important;
+        width: 85% !important;
+    }
+    
+    #biometricEnrollmentModal .modal-body {
+        max-height: 50vh !important;
+        padding: 25px 40px !important;
+    }
+    
+    #employeeDetailsModal .modal-dialog,
+    #employeeDetailsModal .modal-dialog.modal-lg {
+        max-width: 70% !important;
+        width: 70% !important;
+    }
+    
+    #employeeDetailsModal .modal-body {
+        max-height: 50vh !important;
+        padding: 25px 40px !important;
+    }
+    
+    .modal-dialog.modal-xl {
+        max-width: 85% !important;
+        width: 85% !important;
+    }
+}
+

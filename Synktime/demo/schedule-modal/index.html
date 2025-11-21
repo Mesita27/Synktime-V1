@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Modal de Horarios Interactivo | SynkTime</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Demo Styles -->
+    <link rel="stylesheet" href="css/demo-styles.css">
+    <link rel="stylesheet" href="css/schedule-modal.css">
+    <link rel="stylesheet" href="css/notifications.css">
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Header de la Demo -->
+        <header class="demo-header">
+            <div class="demo-header-content">
+                <h1><i class="fas fa-clock"></i> Demo: Modal de Horarios Interactivo</h1>
+                <p class="demo-subtitle">Interfaz moderna y didáctica para configuración de horarios laborales</p>
+
+                <div class="demo-actions">
+                    <button class="btn-demo-primary" onclick="openScheduleModal()">
+                        <i class="fas fa-plus"></i> Crear Nuevo Horario
+                    </button>
+                    <button class="btn-demo-secondary" onclick="showDemoGuide()">
+                        <i class="fas fa-question-circle"></i> Guía de Uso
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Contenido Principal -->
+        <main class="demo-main">
+            <!-- Características Destacadas -->
+            <section class="demo-features">
+                <h2><i class="fas fa-star"></i> Características Principales</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-timeline"></i>
+                        </div>
+                        <h3>Timeline Visual</h3>
+                        <p>Configura horas de entrada y salida con una interfaz visual intuitiva mediante drag & drop.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Guías Didácticas</h3>
+                        <p>Asistente paso a paso que guía al usuario en la configuración correcta de horarios.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Integración con Turnos</h3>
+                        <p>Compatibilidad completa con el sistema de turnos, validaciones automáticas y sugerencias.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Validaciones Inteligentes</h3>
+                        <p>Detección automática de conflictos, sugerencias de optimización y alertas preventivas.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista Previa del Modal -->
+            <section class="demo-preview">
+                <h2><i class="fas fa-eye"></i> Vista Previa Interactiva</h2>
+                <div class="preview-container">
+                    <div class="preview-mockup">
+                        <div class="mockup-header">
+                            <span class="mockup-title">Configurar Horario Laboral</span>
+                            <span class="mockup-close">&times;</span>
+                        </div>
+                        <div class="mockup-content">
+                            <div class="mockup-step active">
+                                <div class="step-indicator">1</div>
+                                <div class="step-content">
+                                    <h4>Información Básica</h4>
+                                    <p>Configura el nombre y ubicación del horario</p>
+                                </div>
+                            </div>
+                            <div class="mockup-timeline">
+                                <div class="timeline-header">
+                                    <h4>Horario Semanal</h4>
+                                    <div class="timeline-controls">
+                                        <button class="timeline-btn">Lun</button>
+                                        <button class="timeline-btn active">Mar</button>
+                                        <button class="timeline-btn">Mié</button>
+                                        <button class="timeline-btn">Jue</button>
+                                        <button class="timeline-btn">Vie</button>
+                                        <button class="timeline-btn">Sáb</button>
+                                        <button class="timeline-btn">Dom</button>
+                                    </div>
+                                </div>
+                                <div class="timeline-visual">
+                                    <div class="timeline-track">
+                                        <div class="time-marker" style="left: 0%">00:00</div>
+                                        <div class="time-marker" style="left: 25%">06:00</div>
+                                        <div class="time-marker" style="left: 50%">12:00</div>
+                                        <div class="time-marker" style="left: 75%">18:00</div>
+                                        <div class="time-marker" style="left: 100%">24:00</div>
+                                    </div>
+                                    <div class="schedule-block work-block" style="left: 25%; width: 37.5%">
+                                        <div class="block-handle start-handle"></div>
+                                        <div class="block-content">
+                                            <span class="block-time">06:00 - 17:30</span>
+                                            <span class="block-label">Jornada Laboral</span>
+                                        </div>
+                                        <div class="block-handle end-handle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal de Horarios Interactivo -->
+    <div id="scheduleModal" class="schedule-modal">
+        <div class="modal-backdrop" onclick="closeScheduleModal()"></div>
+        <div class="modal-container">
+            <!-- Modal Content will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Modal de Guía -->
+    <div id="guideModal" class="guide-modal">
+        <div class="modal-backdrop" onclick="closeGuideModal()"></div>
+        <div class="modal-container">
+            <div class="guide-content">
+                <div class="guide-header">
+                    <h2><i class="fas fa-graduation-cap"></i> Guía de Uso del Modal</h2>
+                    <button class="guide-close" onclick="closeGuideModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="guide-body">
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Información Básica</h3>
+                            <p>Ingresa el nombre del horario y selecciona la sede y establecimiento correspondiente.</p>
+                        </div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Configuración Visual</h3>
+                            <p>Usa la timeline interactiva para arrastrar y configurar las horas de entrada y salida.</p>
+                        </div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Días de la Semana</h3>
+                            <p>Selecciona los días en que aplica este horario usando los botones interactivos.</p>
+                        </div>
+                    </div>
+                    <div class="guide-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Validación y Guardado</h3>
+                            <p>Revisa las validaciones automáticas y guarda el horario cuando esté listo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/demo-app.js"></script>
+    <script src="js/schedule-modal.js"></script>
+</body>
+</html>
