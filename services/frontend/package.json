@@ -1,0 +1,22 @@
+{
+  "name": "synktime-frontend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Synktime Frontend Assets and Components",
+  "scripts": {
+    "lint": "eslint assets/js --ext .js",
+    "format": "prettier --write \"**/*.{js,css,html}\"",
+    "test": "jest --color --runInBand"
+  },
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "prettier": "^3.1.0",
+    "jest": "^29.0.0",
+    "jsdom": "^22.1.0",
+    "jest-environment-jsdom": "^29.8.0",
+    "eslint-plugin-jest": "^27.1.5"
+  }
+}
