@@ -1,0 +1,48 @@
+# SNKTIME Biometric Service Dependencies
+# Web framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# Data validation and settings
+pydantic>=2.4.0
+pydantic-settings>=2.0.0
+
+# HTTP client
+httpx>=0.25.0
+aiofiles>=23.2.0
+
+# Computer Vision and AI
+opencv-python>=4.8.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# InsightFace for facial recognition
+insightface>=0.7.3
+onnx>=1.14.0
+onnxruntime>=1.16.0
+
+# Fingerprint support (Linux only)
+# Note: Requires system packages: libfprint-2-dev python3-dbus
+pydbus>=0.6.0; platform_system=="Linux"
+
+# RFID/Serial support
+pyserial>=3.5
+pyusb>=1.2.1
+
+# Database support (if direct DB access needed)
+pymysql>=1.1.0
+aiomysql>=0.2.0
+
+# Logging and monitoring
+structlog>=23.1.0
+
+# Development dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0  # For testing
+pytest-cov>=4.1.0
+
+# Optional: For enhanced performance
+# ujson>=5.8.0
+# orjson>=3.9.0

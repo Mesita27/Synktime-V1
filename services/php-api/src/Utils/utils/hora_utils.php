@@ -86,5 +86,4 @@ function determinarEstadoAsistencia($hora_real, $hora_programada, $tolerancia_mi
         }
     }
 }
-?></content>
-<parameter name="filePath">c:\Users\datam\Downloads\SNKTIME-copilot-fix-e94edcf3-8226-467e-8120-88ef6f42ba64\utils\hora_utils.php
+
